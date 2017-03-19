@@ -48,9 +48,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'login' => 'required|max:30|unique:users',
+            'email' => 'required|email|max:120',
             'password' => 'required|min:6|confirmed',
+            'name' => 'required|max:190',
+            'contact_person' => 'max:80',
+            'phone' => 'required|max:60',
+            'portfolio' => 'file|max:500|mimes:pdf,doc,docx,rtf',
+            'logo' => 'file|max:100|mimes:jpg,gif,png',
+            'www' => 'url|max:150'
         ]);
     }
 
@@ -62,10 +68,68 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $confirmation_code = str_random(32);
+        
+        $data['link'] = '/register/confirm/' . $confirmation_code;
+        
+        /*
+        Mail::send('layouts.mailconfirm', $data, function ($message) use ($data) {
+                $message->to($data['email'])
+                    ->subject('Confirm registration ' . $data['login']);
+            });
+        */
+        
+        if(!empty($data['portfolio'])) {
+            $file_portfolio = $data['portfolio'];
+            $new_file_portfolio = str_random(8) . '.' . $file->getClientOriginalExtension();
+        } else {
+            $new_file_portfolio = null;
+        }
+
+        if(!empty($data['logo'])) {
+            $file_logo = $data['logo'];
+            $new_file_logo = str_random(8) . '.' . $file->getClientOriginalExtension();
+        } else {
+            $new_file_logo = null;
+        }
+        $data['portfolio'] = $new_file_portfolio;
+        $data['logo'] = $new_file_logo;
+
+        $user = User::create([
+            'login' => $data['login'],
             'email' => $data['email'],
+            'name' => $data['name'],
+            'contact_person' => $data['contact_person'],
+            'phone' => $data['phone'],
             'password' => bcrypt($data['password']),
+            'confirmation_code' => $confirmation_code,
+            'portfolio' => $new_file_portfolio,
+            'logo' => $new_file_logo,
+            'www' => $data['www'],
         ]);
+
+        if ($user && $new_file_portfolio) {
+            //$_SERVER['DOCUMENT_ROOT'] . 
+            $root = '/uploads/users/' . $user->id;
+            if(!file_exists($root)) {
+                if (!mkdir($root, 0777, true)) {
+                        dump('Не могу создать папку для файлов');
+                    }
+            }
+            $file_portfolio->move($root, $new_file_protfolio);
+        }
+
+        if ($user && $new_file_logo) {
+            //$_SERVER['DOCUMENT_ROOT'] . 
+            $root = '/uploads/users/' . $user->id;
+            if(!file_exists($root)) {
+                if (!mkdir($root, 0777, true)) {
+                        dump('Не могу создать папку для файлов');
+                    }
+            }
+            $file_logo->move($root, $new_file_logo);
+        }
+
+        return $user;
     }
 }

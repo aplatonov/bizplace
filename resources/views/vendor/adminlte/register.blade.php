@@ -10,7 +10,7 @@
 @section('body')
     <div class="register-box">
         <div class="register-logo">
-            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
+            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Biz</b>Place') !!}</a>
         </div>
 
         <div class="register-box-body">
@@ -18,13 +18,13 @@
             <form action="{{ url(config('adminlte.register_url', 'register')) }}" method="post">
                 {!! csrf_field() !!}
 
-                <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
-                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"
-                           placeholder="{{ trans('adminlte::adminlte.full_name') }}">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    @if ($errors->has('name'))
+                <div class="form-group has-feedback {{ $errors->has('login') ? 'has-error' : '' }}">
+                    <input type="text" name="login" class="form-control" value="{{ old('login') }}"
+                           placeholder="логин для входа">
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    @if ($errors->has('login'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('name') }}</strong>
+                            <strong>{{ $errors->first('login') }}</strong>
                         </span>
                     @endif
                 </div>
@@ -35,6 +35,46 @@
                     @if ($errors->has('email'))
                         <span class="help-block">
                             <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
+                    <input type="text" name="name" class="form-control" value="{{ old('name') }}"
+                           placeholder="название организации">
+                    <span class="glyphicon glyphicon-list-alt form-control-feedback"></span>
+                    @if ($errors->has('name'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('name') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('contact_person') ? 'has-error' : '' }}">
+                    <input type="text" name="contact_person" class="form-control" value="{{ old('contact_person') }}"
+                           placeholder="контактное лицо">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    @if ($errors->has('contact_person'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('contact_person') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('phone') ? 'has-error' : '' }}">
+                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}"
+                           placeholder="контактный телефон">
+                    <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                    @if ($errors->has('phone'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('phone') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback {{ $errors->has('www') ? 'has-error' : '' }}">
+                    <input type="text" name="www" class="form-control" value="{{ old('www') }}"
+                           placeholder="сайт">
+                    <span class="glyphicon glyphicon-link form-control-feedback"></span>
+                    @if ($errors->has('www'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('www') }}</strong>
                         </span>
                     @endif
                 </div>
@@ -51,7 +91,7 @@
                 <div class="form-group has-feedback {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                     <input type="password" name="password_confirmation" class="form-control"
                            placeholder="{{ trans('adminlte::adminlte.retype_password') }}">
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @if ($errors->has('password_confirmation'))
                         <span class="help-block">
                             <strong>{{ $errors->first('password_confirmation') }}</strong>

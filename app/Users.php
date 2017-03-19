@@ -2,12 +2,11 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Users extends Model
 {
-    use Notifiable, UserRelations;
+    use UserRelations;
 
     protected $table="users";
     /**

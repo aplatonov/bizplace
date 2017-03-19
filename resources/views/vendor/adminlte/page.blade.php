@@ -55,26 +55,103 @@
             @endif
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
-
                     <ul class="nav navbar-nav">
-                        <li>
-                            @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
-                                <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
-                                </a>
-                            @else
-                                <a href="#"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                >
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
-                                </a>
-                                <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
-                                    @if(config('adminlte.logout_method'))
-                                        {{ method_field(config('adminlte.logout_method')) }}
+                        <!-- Notifications -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">10</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">За последние сутки у вас 10 новых объектов</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                      <li>
+                                        <a href="#">
+                                          <i class="fa fa-bookmark text-aqua"></i> 5 компаний зарегистрировано
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">
+                                          <i class="fa fa-gears text-yellow"></i> 3 проекта добавлено</i> 
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">
+                                          <i class="fa fa-users text-red"></i> 15 новых специалистов
+                                        </a>
+                                      </li>
+
+                                      <li>
+                                        <a href="#">
+                                          <i class="fa fa-mail-forward text-green"></i> 25 запросов контактной информации
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">
+                                          <i class="fa fa-comments text-red"></i> 4 новых отзыва
+                                        </a>
+                                      </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    
+                        <!-- User Account -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/img/noname.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                              <!-- User image -->
+                              <li class="user-header">
+                                <img src="/img/noname.png" class="img-circle" alt="User Image">
+                                <p>
+                                  {{ Auth::user()->name }}<br>{{ Auth::user()->contact_person}}
+                                  <small>{{ isset(Auth::user()->created_at) ? 'зарегистрирован ' . Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y') : '' }}</small>
+                                </p>
+                              </li>
+                              <!-- Menu Body -->
+                              <li class="user-body">
+                                <div class="row">
+                                  <div class="col-xs-4 text-center">
+                                    <a href="#">Проекты</a>
+                                  </div>
+                                  <div class="col-xs-4 text-center">
+                                    <a href="#">Спец-ты</a>
+                                  </div>
+                                  <div class="col-xs-4 text-center">
+                                    <a href="#">Сообщен.</a>
+                                  </div>
+                                </div>
+                                <!-- /.row -->
+                              </li>
+                              <!-- Menu Footer-->
+                              <li class="user-footer">
+                                <div class="pull-left">
+                                  <a href="/users/{{ Auth::user()->id }}/edit" class="btn btn-default btn-flat">Профиль</a>
+                                </div>
+                                <div class="pull-right">
+                                    <!--a href="#" class="btn btn-default btn-flat">Выход</a-->
+                                    @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
+                                        <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" class="btn btn-default btn-flat">
+                                        {{ trans('adminlte::adminlte.log_out') }}
+                                        </a>
+                                    @else
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">
+                                        {{ trans('adminlte::adminlte.log_out') }}</a>
+                                        <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
+                                        @if(config('adminlte.logout_method'))
+                                            {{ method_field(config('adminlte.logout_method')) }}
+                                        @endif
+                                        {{ csrf_field() }}
+                                        </form>
                                     @endif
-                                    {{ csrf_field() }}
-                                </form>
-                            @endif
+                                </div>
+                              </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -125,7 +202,39 @@
             @endif
         </div>
         <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="row">
+                <div class="col-md-3">
+                  <img class="img-responsive" src="/img/logo_full.png" alt="BizPlace logo">
+                  <!-- /.box -->
+                </div>
 
+                <div class="col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Тарифы</a></li>
+                        <li><a href="#">Отзывы</a></li>
+                    </ul>
+                </div>
+                <!-- ./col -->
+                <div class="col-md-3">
+                    <ul class="list-unstyled">
+                        <li><a href="/home">Как это работает</a></li>
+                        <li><a href="#">Наши контакты</a></li>
+                        <li><a href="#">Политика конфеденциальности</a></li>
+                    </ul>
+                </div>
+                <!-- ./col -->
+                <div class="col-md-3">
+                    <ul class="list-unstyled">
+                        <li><button type="button" class="btn btn-block btn-default btn-xs">Связаться с нами</button></li>
+                        <li>&nbsp;</li>
+                        <li><button type="button" class="btn btn-block btn-default btn-xs">Позвоните нам</button></li>
+                    </ul>
+                </div>
+                <!-- ./col -->
+            </div>
+        </footer>
     </div>
     <!-- ./wrapper -->
 @stop

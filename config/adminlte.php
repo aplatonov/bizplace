@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'BizPlace',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Biz</b>Place',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '<b>B</b>pl',
 
     /*
     |--------------------------------------------------------------------------
@@ -108,80 +108,117 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
+        'ГЛАВНОЕ МЕНЮ',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text' => 'Как это работает',
+            'url'  => '/home',
+            'icon' => 'question',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        'ACCOUNT SETTINGS',
-        [
-            'text' => 'Profile',
-            'url'  => 'admin/settings',
-            'icon' => 'user',
-        ],
-        [
-            'text' => 'Change Password',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
-        ],
-        [
-            'text'    => 'Multilevel',
-            'icon'    => 'share',
+            'text' => 'Администратор',
+            'icon'        => 'user-secret',
+            'icon_color' => 'red',
+            'can'  => 'admin-control',
             'submenu' => [
                 [
-                    'text' => 'Level One',
+                    'text' => 'Пользователи',
+                    'icon' => 'users',
                     'url'  => '#',
                 ],
                 [
-                    'text'    => 'Level One',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Level Two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'Level Two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Направления',
+                    'icon' => 'sitemap',
+                    'url'  => '#',
                 ],
                 [
-                    'text' => 'Level One',
+                    'text' => 'Технологии',
+                    'icon' => 'cubes',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Сообщения',
+                    'icon' => 'bell',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Категории сообщений',
+                    'icon' => 'bookmark',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Управление отзывами',
+                    'icon' => 'comments',
                     'url'  => '#',
                 ],
             ],
         ],
-        'LABELS',
         [
-            'text'       => 'Important',
-            'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'Warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'Information',
+            'text' => 'Личный кабинет',
+            'icon' => 'user',
             'icon_color' => 'aqua',
+            'submenu' => [
+                [
+                    'text' => 'Редактировать профиль',
+                    'icon' => 'edit',
+                    'url'  => "/users/{{ Auth::user()->id }}/edit",
+                ],
+                [
+                    'text' => 'Мои специалисты',
+                    'icon' => 'users',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Мои проекты',
+                    'icon' => 'gear',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Добавить специалиста',
+                    'icon' => 'user-plus',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Добавить проект',
+                    'icon' => 'plus-circle',
+                    'url'  => '#',
+                ],
+            ],
+        ],
+        'BIZPLACE',
+        [
+            'text' => 'Проекты',
+            'url'  => '#',
+            'icon' => 'gears',
+        ],
+        [
+            'text' => 'Компании',
+            'url'  => '#',
+            'icon' => 'bookmark',
+        ],
+        [
+            'text' => 'Специалисты',
+            'url'  => '#',
+            'icon' => 'users',
+        ],
+        [
+            'text' => 'Отзывы',
+            'url'  => '#',
+            'icon' => 'comments',
+        ],
+        [
+            'text' => 'Контакты',
+            'url'  => '#',
+            'icon' => 'globe',
+        ],
+        [
+            'text' => 'О нас',
+            'url'  => '#',
+            'icon' => 'info',
+        ],
+        [
+            'text' => 'Конфеденциальность',
+            'url'  => '#',
+            'icon' => 'newspaper-o',
         ],
     ],
 

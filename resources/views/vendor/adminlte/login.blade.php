@@ -19,13 +19,13 @@
             <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
                 {!! csrf_field() !!}
 
-                <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-                    <input type="email" name="email" class="form-control" value="{{ old('email') }}"
-                           placeholder="{{ trans('adminlte::adminlte.email') }}">
+                <div class="form-group has-feedback {{ $errors->has('login') ? 'has-error' : '' }}">
+                    <input type="text" name="login" class="form-control" value="{{ old('login') }}"
+                           placeholder="логин для входа">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    @if ($errors->has('email'))
+                    @if ($errors->has('login'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
+                            <strong>{{ $errors->first('login') }}</strong>
                         </span>
                     @endif
                 </div>
