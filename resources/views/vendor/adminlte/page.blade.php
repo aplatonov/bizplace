@@ -101,13 +101,13 @@
                         <!-- User Account -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/img/noname.png" class="user-image" alt="User Image">
+                                <img src="{{ isset(Auth::user()->logo) ? Storage::url(Auth::user()->logo) : '/img/noname.png' }}" class="user-image" alt="User Image">
                                 <span class="hidden-xs">{{ Auth::user()->name }}</span>
                             </a>
                             <ul class="dropdown-menu">
                               <!-- User image -->
                               <li class="user-header">
-                                <img src="/img/noname.png" class="img-circle" alt="User Image">
+                                <img src="{{ isset(Auth::user()->logo) ? Storage::url(Auth::user()->logo) : '/img/noname.png' }}" class="img-circle" alt="User Image">
                                 <p>
                                   {{ Auth::user()->name }}<br>{{ Auth::user()->contact_person}}
                                   <small>{{ isset(Auth::user()->created_at) ? 'зарегистрирован ' . Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y') : '' }}</small>
@@ -117,13 +117,13 @@
                               <li class="user-body">
                                 <div class="row">
                                   <div class="col-xs-4 text-center">
-                                    <a href="#">Проекты</a>
+                                    <a href="#"><small class="label bg-blue">Проекты</small></a>
                                   </div>
                                   <div class="col-xs-4 text-center">
-                                    <a href="#">Спец-ты</a>
+                                    <a href="/userPersonal"><small class="label bg-green">Спец-ты</small></a>
                                   </div>
                                   <div class="col-xs-4 text-center">
-                                    <a href="#">Сообщен.</a>
+                                    <a href="#"><small class="label bg-red">Сообщен.</small></a>
                                   </div>
                                 </div>
                                 <!-- /.row -->
@@ -131,7 +131,7 @@
                               <!-- Menu Footer-->
                               <li class="user-footer">
                                 <div class="pull-left">
-                                  <a href="/users/{{ Auth::user()->id }}/edit" class="btn btn-default btn-flat">Профиль</a>
+                                  <a href="/users/editprofile" class="btn btn-default btn-flat">Профиль</a>
                                 </div>
                                 <div class="pull-right">
                                     <!--a href="#" class="btn btn-default btn-flat">Выход</a-->

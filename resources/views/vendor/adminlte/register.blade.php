@@ -16,7 +16,7 @@
         <div class="register-box-body">
             <p class="login-box-msg">{{ trans('adminlte::adminlte.register_message') }}</p>
             <form action="{{ url(config('adminlte.register_url', 'register')) }}" method="post">
-                {!! csrf_field() !!}
+                {{ csrf_field() }}
 
                 <div class="form-group has-feedback {{ $errors->has('login') ? 'has-error' : '' }}">
                     <input type="text" name="login" class="form-control" value="{{ old('login') }}"
@@ -59,7 +59,7 @@
                     @endif
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('phone') ? 'has-error' : '' }}">
-                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}"
+                    <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone') }}"
                            placeholder="контактный телефон">
                     <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
                     @if ($errors->has('phone'))
@@ -70,7 +70,7 @@
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('www') ? 'has-error' : '' }}">
                     <input type="text" name="www" class="form-control" value="{{ old('www') }}"
-                           placeholder="сайт">
+                           placeholder="http://mysite.com">
                     <span class="glyphicon glyphicon-link form-control-feedback"></span>
                     @if ($errors->has('www'))
                         <span class="help-block">
@@ -114,3 +114,11 @@
 @section('adminlte_js')
     @yield('js')
 @stop
+
+@section('jscripts')
+    <script>
+        jQuery(function($){
+            $("#phone").mask("+7 (999) 999-99-99", {placeholder:"x"});
+        });
+    </script>
+@endsection

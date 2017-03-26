@@ -13,6 +13,16 @@
 
 @section('content')
     <div class="row">
+
+        @if(Session::has('message'))
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{Session::get('message')}}
+                </div>
+            </div>
+        @endif
+
         <div class="col-md-6">
           <!-- Custom Tabs -->
           <div class="nav-tabs-custom">

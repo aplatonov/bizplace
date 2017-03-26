@@ -123,7 +123,7 @@ return [
                 [
                     'text' => 'Пользователи',
                     'icon' => 'users',
-                    'url'  => '#',
+                    'url'  => '/admin/users',
                 ],
                 [
                     'text' => 'Направления',
@@ -160,12 +160,12 @@ return [
                 [
                     'text' => 'Редактировать профиль',
                     'icon' => 'edit',
-                    'url'  => "/users/{{ Auth::user()->id }}/edit",
+                    'url'  => "/users/editprofile",
                 ],
                 [
                     'text' => 'Мои специалисты',
                     'icon' => 'users',
-                    'url'  => '#',
+                    'url'  => '/userPersonal',
                 ],
                 [
                     'text' => 'Мои проекты',
@@ -197,7 +197,7 @@ return [
         ],
         [
             'text' => 'Специалисты',
-            'url'  => '#',
+            'url'  => '/personal',
             'icon' => 'users',
         ],
         [

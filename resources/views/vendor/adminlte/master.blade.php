@@ -16,10 +16,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/datepicker.css') }}">
     
     @if(config('adminlte.plugins.datatables'))
         <!-- DataTables -->
-        <link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.css">
+        <!--link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.css"-->
     @endif
 
     @yield('adminlte_css')
@@ -37,12 +39,17 @@
 
 <script src="{{ asset('vendor/adminlte/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('js/masked-edit.js') }}"></script>
+
 @if(config('adminlte.plugins.datatables'))
     <!-- DataTables -->
-    <script src="//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></script>
+    <!--script src="//cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></script-->
 @endif
 
 @yield('adminlte_js')
+@yield('jscripts')
+
 
 </body>
 </html>

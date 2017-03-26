@@ -27,8 +27,8 @@ class CreateUsersTable extends Migration
             $table->boolean('valid')->default(false);
             $table->boolean('confirmed')->default(false);
             $table->string('confirmation_code')->nullable();
-            $table->string('portfolio', 30)->nullable();
-            $table->string('logo', 30)->nullable();
+            $table->string('portfolio', 100)->nullable();
+            $table->string('logo', 100)->nullable();
             $table->string('www', 150)->nullable();
             $table->rememberToken();
             $table->timestamps();

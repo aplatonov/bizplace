@@ -14,13 +14,13 @@ class CreatePersonalHasTechnologyTable extends Migration
     public function up()
     {
         Schema::create('personal_has_technology', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+            $table->integer('person_id')->unsigned();
             $table->integer('technology_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('personal_has_technology', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('person_id')->references('id')->on('personal');
             $table->foreign('technology_id')->references('id')->on('technology');
         });
     }
@@ -33,7 +33,7 @@ class CreatePersonalHasTechnologyTable extends Migration
     public function down()
     {
         Schema::table('personal_has_technology', function (Blueprint $table) {
-            $table->dropForeign('personal_has_technology_user_id_foreign');
+            $table->dropForeign('personal_has_technology_person_id_foreign');
             $table->dropForeign('personal_has_technology_technology_id_foreign');
         });
 

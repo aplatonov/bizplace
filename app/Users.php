@@ -27,4 +27,14 @@ class Users extends Model
         'password', 'remember_token',
     ];
 
+    public function projects()
+    {
+        return $this->hasMany('App\Projects', 'owner_id', 'id');
+    }
+
+    public function personal()
+    {
+        return $this->hasMany('App\Personal', 'user_id', 'id');
+    }
+
 }

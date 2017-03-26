@@ -20,7 +20,7 @@ class CreatePersonalTable extends Migration
             $table->integer('speciality_id')->unsigned();
             $table->integer('experience')->nullable();
             $table->string('images', 90)->nullable();
-            $table->string('resume', 30)->nullable();
+            $table->string('resume', 90)->nullable();
             $table->integer('hour_rate')->nullable();
             $table->integer('user_id')->unsigned();
             $table->datetime('free_since')->nullable();

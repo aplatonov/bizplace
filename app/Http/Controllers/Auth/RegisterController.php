@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/users/editprofile';
 
     /**
      * Create a new controller instance.
@@ -49,14 +49,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'login' => 'required|max:30|unique:users',
-            'email' => 'required|email|max:120',
+            'email' => 'required|email|max:120|unique:users',
             'password' => 'required|min:6|confirmed',
-            'name' => 'required|max:190',
-            'contact_person' => 'max:80',
+            'name' => 'required|min:2|max:190',
+            'contact_person' => 'required|min:2|max:80',
             'phone' => 'required|max:60',
-            'portfolio' => 'file|max:500|mimes:pdf,doc,docx,rtf',
-            'logo' => 'file|max:100|mimes:jpg,gif,png',
-            'www' => 'url|max:150'
+            'www' => 'url|max:150|nullable'
         ]);
     }
 
@@ -68,6 +66,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        //dd($data);
         $confirmation_code = str_random(32);
         
         $data['link'] = '/register/confirm/' . $confirmation_code;
@@ -78,22 +77,6 @@ class RegisterController extends Controller
                     ->subject('Confirm registration ' . $data['login']);
             });
         */
-        
-        if(!empty($data['portfolio'])) {
-            $file_portfolio = $data['portfolio'];
-            $new_file_portfolio = str_random(8) . '.' . $file->getClientOriginalExtension();
-        } else {
-            $new_file_portfolio = null;
-        }
-
-        if(!empty($data['logo'])) {
-            $file_logo = $data['logo'];
-            $new_file_logo = str_random(8) . '.' . $file->getClientOriginalExtension();
-        } else {
-            $new_file_logo = null;
-        }
-        $data['portfolio'] = $new_file_portfolio;
-        $data['logo'] = $new_file_logo;
 
         $user = User::create([
             'login' => $data['login'],
@@ -103,32 +86,8 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'password' => bcrypt($data['password']),
             'confirmation_code' => $confirmation_code,
-            'portfolio' => $new_file_portfolio,
-            'logo' => $new_file_logo,
             'www' => $data['www'],
         ]);
-
-        if ($user && $new_file_portfolio) {
-            //$_SERVER['DOCUMENT_ROOT'] . 
-            $root = '/uploads/users/' . $user->id;
-            if(!file_exists($root)) {
-                if (!mkdir($root, 0777, true)) {
-                        dump('Не могу создать папку для файлов');
-                    }
-            }
-            $file_portfolio->move($root, $new_file_protfolio);
-        }
-
-        if ($user && $new_file_logo) {
-            //$_SERVER['DOCUMENT_ROOT'] . 
-            $root = '/uploads/users/' . $user->id;
-            if(!file_exists($root)) {
-                if (!mkdir($root, 0777, true)) {
-                        dump('Не могу создать папку для файлов');
-                    }
-            }
-            $file_logo->move($root, $new_file_logo);
-        }
 
         return $user;
     }

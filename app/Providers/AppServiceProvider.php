@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // to run migrations on MySQL v5.7.7 and lower
         Schema::defaultStringLength(191);
+
     }
 
     /**
