@@ -31,10 +31,18 @@ Route::post('/admin/users/confirm/{id}','AdminController@confirmUser');
 Route::post('/admin/users/block/{id}','AdminController@blockUser');
 Route::post('/admin/users/role/{id}','AdminController@adminUser');
 
-Route::resource('personal', 'PersonalController');
-Route::get('/personal','PersonalController@showPersonal');
+Route::get('/personal','PersonalController@showPersonal')->name('personal');
+Route::get('/userPersonal','PersonalController@showPersonal')->name('userPersonal'); 
 Route::delete('/personal/delete/{id}','PersonalController@destroyPerson');
 Route::post('/personal/info/{id}','PersonalController@showContactInfo');
-Route::post('/personal/block/{id}','PersonalController@blockPerson');
-Route::get('/userPersonal', 'PersonalController@indexUserPersonal');
-Route::post('/personal/add','PersonalController@addPerson');
+Route::get('/personal/add','PersonalController@addPerson'); 
+Route::post('/personal','PersonalController@storePerson'); 
+Route::get('/personal/{id}/edit','PersonalController@edit');
+
+Route::get('/projects','ProjectsController@showProjects')->name('projects');
+Route::get('/userProjects','ProjectsController@showProjects')->name('userProjects'); 
+Route::post('/projects/info/{id}','ProjectsController@showContactInfo');
+Route::post('/projects/active/{id}','ProjectsController@confirmProject');
+Route::get('/projects/add','ProjectsController@addProject'); 
+Route::post('/projects','ProjectsController@storeProject'); 
+Route::get('/projects/{id}/edit','ProjectsController@edit');

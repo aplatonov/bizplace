@@ -18,9 +18,9 @@ class CreateProjectsTable extends Migration
             $table->string('project_name', 150);
             $table->text('description');
             $table->integer('speciality_id')->unsigned();
-            $table->string('doc', 30)->nullable();
-            $table->datetime('start_date')->nullable();
-            $table->datetime('finish_date')->nullable();
+            $table->string('doc', 90)->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('finish_date')->nullable();
             $table->integer('budget')->nullable();
             $table->integer('owner_id')->unsigned();
             $table->integer('customer_id')->unsigned()->nullable();

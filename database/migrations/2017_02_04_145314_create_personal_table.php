@@ -23,7 +23,7 @@ class CreatePersonalTable extends Migration
             $table->string('resume', 90)->nullable();
             $table->integer('hour_rate')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->datetime('free_since')->nullable();
+            $table->date('free_since')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

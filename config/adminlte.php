@@ -170,24 +170,24 @@ return [
                 [
                     'text' => 'Мои проекты',
                     'icon' => 'gear',
-                    'url'  => '#',
+                    'url'  => '/userProjects',
                 ],
                 [
                     'text' => 'Добавить специалиста',
                     'icon' => 'user-plus',
-                    'url'  => '#',
+                    'url'  => '/personal/add',
                 ],
                 [
                     'text' => 'Добавить проект',
                     'icon' => 'plus-circle',
-                    'url'  => '#',
+                    'url'  => '/projects/add',
                 ],
             ],
         ],
         'BIZPLACE',
         [
             'text' => 'Проекты',
-            'url'  => '#',
+            'url'  => '/projects',
             'icon' => 'gears',
         ],
         [
@@ -219,6 +219,11 @@ return [
             'text' => 'Конфеденциальность',
             'url'  => '#',
             'icon' => 'newspaper-o',
+        ],
+        [
+            'text' => 'На страницу приветствия',
+            'url'  => '/',
+            'icon' => 'home',
         ],
     ],
 

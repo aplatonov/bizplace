@@ -14,13 +14,13 @@ class CreateProjectsHasTechnologyTable extends Migration
     public function up()
     {
         Schema::create('projects_has_technology', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+            $table->integer('project_id')->unsigned();
             $table->integer('technology_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('projects_has_technology', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('project_id')->references('id')->on('projects');
             $table->foreign('technology_id')->references('id')->on('technology');
         });
     }
@@ -33,7 +33,7 @@ class CreateProjectsHasTechnologyTable extends Migration
     public function down()
     {
         Schema::table('projects_has_technology', function (Blueprint $table) {
-            $table->dropForeign('projects_has_technology_user_id_foreign');
+            $table->dropForeign('projects_has_technology_project_id_foreign');
             $table->dropForeign('projects_has_technology_technology_id_foreign');
         });
 

@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Storage;
 use Exception;
 use Response;
 use App\Users;
-use App\Personal;
+use App\Projects;
 use App\Technology;
 use App\Speciality;
-use App\PersonalHasTechnology;
+use App\ProjectsHasTechnology;
 
-class PersonalController extends Controller
+class ProjectsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -51,10 +51,10 @@ class PersonalController extends Controller
         //return view('personCreate');
     }
 
-    public function addPerson(Request $request)
+    public function addProject(Request $request)
     {
         $form = $request->all();
-        $form['user_id'] = Auth::user()->id;
+        $form['owner_id'] = Auth::user()->id;
 
         if (isset($form['fromPage'])) {
             session(['fromPage' => $form['fromPage']]);
@@ -66,7 +66,7 @@ class PersonalController extends Controller
             ->get();
 
         //dd($users);
-        return view('new-person')->with([
+        return view('new-project')->with([
                 'specialities' => $specialities,
                 'technologies' => $technologies,
                 'form' => $form
@@ -79,75 +79,74 @@ class PersonalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storePerson(Request $request)
+    public function storeProject(Request $request)
     {
         $form = $request->all();
-        //dd($form);
         if ($form['isUpdate'] == 1) {
-            $person = Personal::find($form['person_id']);
-            $path = $person->resume;
+            $project = Projects::find($form['project_id']);
+            $path = $project->doc;
         } else {
             $path = null;
         }
 
         $this->validate($request, [
-            'person_name' => 'required|min:2|max:191',
+            'project_name' => 'required|min:2|max:150',
             'description' => 'required',
             'speciality_id' => 'required|integer|min:1',
-            'experience' => 'required|numeric',
-            'resume' => 'file|max:1000|mimes:pdf,doc,docx,rtf',
-            'hour_rate' => 'numeric|nullable',
-            'free_since' => 'date|nullable',
+            'budget' => 'numeric|nullable',
+            'doc' => 'file|max:1000|mimes:pdf,doc,docx,rtf',
+            'start_date' => 'date|nullable',
+            'finish_date' => 'date|nullable',
             'technologies' => 'present'
             ], [
-            'person_name.required' => 'Название сотрудника обязательно к заполненнию',
+            'project_name.required' => 'Название проекта обязательно к заполненнию',
             'speciality_id.min' => 'Необходимо выбрать специализацию',
-            'technologies.present' => 'Сотрудник должен владеть хотя бы одной технологией'
+            'technologies.present' => 'Укажите требуемые технологии проекта'
         ]); 
         
         //dd($form);
 
         $form['active'] = isset($form['active']) ? 1 : 0;
-        if ($request->file('resume')) {
+        if ($request->file('doc')) {
             try {
                 if ($form['isUpdate'] == 1) {
                     Storage::delete($path);
                 }
-                $path = $request->file('resume')->store('resume');
+                $path = $request->file('doc')->store('projects_doc');
             } catch (Exception $e) {
                 //возврат с сообщ об ошибке
             }
         }
-        $form['resume'] = $path;
+        $form['doc'] = $path;
 
         if ($form['isUpdate'] == 1) {
-            $person->update($form);
+            $project->update($form);
         } else {
-            $person = Personal::create($form);
+            $project = Projects::create($form);
         }
                 
-        if ($person) {
-            $person_id = $person->id;
+        if ($project) {
+            $project_id = $project->id;
 
-            //сохраняем технологии в personal_has_technology
+            //сохраняем технологии в projects_has_technology
             if ($form['isUpdate'] == 1) {
-                PersonalHasTechnology::where('person_id', $person_id)->delete();
+                ProjectsHasTechnology::where('project_id', $project_id)->delete();
             }
             if (isset($form['technologies'])) {
                 foreach ($form['technologies'] as $technology) {
-                    PersonalHasTechnology::create([
-                        'person_id' => $person_id,
+                    ProjectsHasTechnology::create([
+                        'project_id' => $project_id,
                         'technology_id' => $technology
                     ]);
                 }
             }
 
-        } //$demand == true
+        } 
 
         if ($form['isUpdate'] == 1) {
-            return redirect('/'.session('fromPage'))->with(['message' => 'Данные сотрудника '.$person->person_name.' обновлены']);
+            return redirect('/'.session('fromPage'))->with(['message' => 'Данные проекта '.$project->project_name.' обновлены']);
         } else {
-            return redirect('/'.session('fromPage'))->with(['message' => 'Сотрудник '.$person->person_name.' добавлен']);
+            return redirect('/'.session('fromPage'))->with(['message' => 'Проект '.$project->project_name.' добавлен']);
         }
     }
 
@@ -167,7 +166,7 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showPersonal(Request $request)
+    public function showProjects(Request $request)
     {
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
@@ -177,49 +176,49 @@ class PersonalController extends Controller
         if (Auth::user()->isAdmin()) 
         {
             //админу показываем все лоты
-            $personal = Personal::whereIn('active', [0, 1]);
-            if (\Route::currentRouteName() == 'userPersonal') {
-                $personal = $personal->where('user_id', Auth::user()->id);
+            $projects = Projects::whereIn('active', [0, 1]);
+            if (\Route::currentRouteName() == 'userProjects') {
+                $projects = $projects->where('owner_id', Auth::user()->id);
                 $data['title'] = Auth::user()->name;
             }
         }
         else
         {
             //пользователю показываем незаблокированных специалистов и его собственнные заблокированные
-            $personal = Personal::where('active', 1);
-            if (\Route::currentRouteName() == 'userPersonal') {
-                $personal = $personal->where('user_id', Auth::user()->id);
+            $projects = Projects::where('active', 1);
+            if (\Route::currentRouteName() == 'userProjects') {
+                $projects = $projects->where('owner_id', Auth::user()->id);
                 $data['title'] = Auth::user()->name;
             } else {
-                $personal = $personal
+                $projects = $projects
                     ->orWhere(function ($query) {
-                        $query->where('user_id', Auth::user()->id)
+                        $query->where('owner_id', Auth::user()->id)
                             ->where('active', 1);
                     });
             }      
         }
 
         if (!empty($searchText)) {
-            $personal = $personal
-                ->where('person_name', 'LIKE', '%' . $searchText . '%');
+            $projects = $projects
+                ->where('project_name', 'LIKE', '%' . $searchText . '%');
         }
 
         if ($order && $dir) {
-            $personal = $personal->orderBy($order, $dir);
+            $projects = $projects->orderBy($order, $dir);
             $page_appends = [
                 'order' => $order,
                 'dir' => $dir,
             ];
         } 
 
-        $personal = $personal->paginate(config('app.objects_on_page'))->appends(['searchText' => $searchText]);
+        $projects = $projects->paginate(config('app.objects_on_page'))->appends(['searchText' => $searchText]);
 
-        $data['personal'] = $personal;
+        $data['projects'] = $projects;
         $data['dir'] = $dir == 'asc' ? 'desc' : 'asc';
         $data['page_appends'] = $page_appends;
         $data['searchText'] = $searchText;
 
-        return view('personal', ['data' => $data]);
+        return view('projects', ['data' => $data]);
     }
 
 
@@ -231,50 +230,27 @@ class PersonalController extends Controller
      */
     public function edit($id)
     {   
-        $person = Personal::findOrFail($id);
-        $person['technologies'] = $person->personTechnologies->keyBy('id')->keys()->toArray();
+        $project = Projects::findOrFail($id);
+        $project['technologies'] = $project->projectTechnologies->keyBy('id')->keys()->toArray();
         $technologies = Technology::where('active', true)->get();
         $specialities = Speciality::where('active', true)->get();
-        if (Auth::user()->isAdmin() || Auth::user()->id == $person->user_id) {
-            return view('edit-person')->with([
-                'person' => $person,
+        if (Auth::user()->isAdmin() || Auth::user()->id == $project->owner_id) {
+            return view('edit-project')->with([
+                'project' => $project,
                 'technologies' => $technologies,
                 'specialities' => $specialities]
         );
         } else  {
-            return redirect()->back()->with('message', 'Недостаточно прав для редактирования сотрудника');
-        }
-    }
-
-    /**
-     * Destroy a object instance after by valid user role.
-     *
-     * @param  integer  $id
-     * @return string
-     */
-    public function destroyPerson($id)
-    {
-        $person = Personal::findOrFail($id);
-        if (Auth::user()->isAdmin() || Auth::user()->id == $person->user_id) {     
-            $personName = $person->person_name;
-            try {
-            	DB::table('personal_has_technology')->where('person_id', $id)->delete();
-                $person->delete();
-                return redirect()->back()->with('message', 'Сотрудник '.$personName.' удален');
-            } catch (Exception $e) {
-                return redirect()->back()->with('message', 'Невозможно удалить сотрудника '.$personName);
-            }
-        } else {
-            return redirect()->back()->with('message', 'Недостаточно прав для удаления сотрудника');
+            return redirect()->back()->with('message', 'Недостаточно прав для редактирования проекта');
         }
     }
     
     public function showContactInfo(Request $request)
     {
         if (Auth::user()->confirmed == 1 && Auth::user()->valid == 1) {
-            $person = Personal::findOrFail($request->input('person_id'));
-            $person_info = '<small>' . $person->user->name . '<br>' . $person->user->contact_person . '<br>' . $person->user->phone . '<small>';
-            $data = array( 'text' => 'success', 'person_info' => $person_info);
+            $project = Projects::findOrFail($request->input('project_id'));
+            $project_info = '<small>' . $project->user->name . '<br>' . $project->user->contact_person . '<br>' . $project->user->phone . '<small>';
+            $data = array( 'text' => 'success', 'project_info' => $project_info);
         } else {
             $data = array( 'text' => 'fail' . $request->input('action') );
         }
@@ -290,5 +266,24 @@ class PersonalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Set Active flag in DB
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmProject(Request $request)
+    {
+    	$project = Projects::findOrFail($request->input('project_id'));
+        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $project->owner_id)) {
+            $project->active = $request->input('action');
+            $project->save();
+            $data = array( 'text' => 'success' );
+        } else {
+            $data = array( 'text' => 'fail' . $request->input('action') );
+        }
+        return Response::json($data);
     }
 }

@@ -13,6 +13,6 @@ class PersonalHasTechnology extends Model
      * @var array
      */
     protected $fillable = [
-        'personal_id', 'technology_id',
+        'person_id', 'technology_id',
     ];
 }

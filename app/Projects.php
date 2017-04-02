@@ -15,4 +15,19 @@ class Projects extends Model
     protected $fillable = [
         'project_name', 'description', 'speciality_id', 'doc', 'start_date', 'finish_date', 'budget', 'owner_id', 'customer_id', 'active',
     ];
+
+    public function speciality()
+    {
+        return $this->belongsTo('App\Speciality', 'speciality_id', 'id');
+    }
+
+    public function projectTechnologies()
+    {
+        return $this->belongsToMany('App\Technology', 'projects_has_technology', 'project_id', 'technology_id');
+    }
+
+    public function user()
+    {
+    	return $this->belongsTo('App\Users', 'owner_id', 'id');
+    }
 }
