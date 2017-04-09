@@ -16,6 +16,12 @@
                     <span class="badge">4</span> Управление проектами (список, карточка, редактирование, поиск, сортировка)<br>
                     <span class="badge">5</span> Мои специалисты/Мои проекты<br>
                     <hr>
+                    <span class="badge">6</span> В профиль пользователя (организации) добавлены технологии<br>
+                    <span class="badge">7</span> Страница "Компании"<br>
+                    <span class="badge">8</span> Отзывы на компанию и в целом на систему<br>
+                    <span class="badge">9</span> Управление отзывами в админке<br>
+                    <span class="badge">10</span> Создание/Удаление/Редактирование справочника "Направления"<br>
+                    <hr>
                     Логин/пароль администратора: <span class="label label-primary">admin/admin</span><br>
                     Логин/пароль пользователя: <span class="label label-info">user/user</span><br>
                     </p>

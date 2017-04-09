@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Exception\NotReadableException;
 use Illuminate\Support\Facades\Session;
 use Image;
+use App\Technology;
+use App\UsersHasTechnology;
+use Response;
 
 
 class UserController extends Controller
@@ -33,6 +36,40 @@ class UserController extends Controller
     {
         //
     }
+
+    public function showCompanies(Request $request)
+    {
+        $searchText = $request->get('searchText');
+
+        $companies = Users::where('valid', 1)
+            ->where('confirmed', 1);
+            
+
+        if (!empty($searchText)) {
+            $companies = $companies
+                ->where('name', 'LIKE', '%' . $searchText . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchText . '%');
+        }
+
+        $companies = $companies->paginate(config('app.objects_on_page'))->appends(['searchText' => $searchText]);
+
+        $data['companies'] = $companies;
+        $data['searchText'] = $searchText;
+
+        return view('companies', ['data' => $data]);
+    }
+
+    public function showCompanyInfo(Request $request)
+    {
+        if (Auth::user()->confirmed == 1 && Auth::user()->valid == 1) {
+            $company = Users::findOrFail($request->input('company_id'));
+            $company_info = '<small>' . $company->contact_person . '<br>' . $company->phone . '<small>';
+            $data = array( 'text' => 'success', 'company_info' => $company_info);
+        } else {
+            $data = array( 'text' => 'fail' . $request->input('action') );
+        }
+        return Response::json($data);
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -80,10 +117,13 @@ class UserController extends Controller
         } else {
             $user = Users::find(Auth::user()->id);
         }
+        $user['technologies'] = $user->technologies->keyBy('id')->keys()->toArray();
+        $technologies = Technology::where('active', true)->get();
+
         
         //dd($user);
 
-        return view('userEdit', ['user'=>$user]);        
+        return view('userEdit', ['user'=>$user, 'technologies' => $technologies]);        
     }
 
     /**
@@ -100,6 +140,7 @@ class UserController extends Controller
         $oldPortfolio = $user->portfolio;
         $oldLogo = $user->logo;
 
+        $form = $request->all();
         $this->validate($request, [
             'email' => 'required|email|max:120',
             'name' => 'required|min:2|max:190',
@@ -110,8 +151,6 @@ class UserController extends Controller
             'portfolio' => 'file|max:1000|mimes:pdf,doc,docx,rtf',
             'logo' => 'file|max:500|mimes:jpg,jpeg,png,gif'
         ]);
-
-        $form = $request->all();
 
         $path = $oldLogo;
         if ($request->file('logo')) {
@@ -139,6 +178,19 @@ class UserController extends Controller
         $form['portfolio'] = $path; 
 
         $user->update($form);
+        //обновим и технологии пользователя
+        if ($user) {
+            $user_id = $user->id;
+            UsersHasTechnology::where('user_id', $user_id)->delete();
+            if (isset($form['technologies'])) {
+                foreach ($form['technologies'] as $technology) {
+                    UsersHasTechnology::create([
+                        'user_id' => $user_id,
+                        'technology_id' => $technology
+                    ]);
+                }
+            }
+        } 
 
         if (Auth::user()->isAdmin()) {
             return redirect('/admin/users?page=' . Session::get('page',1))->with('message','Данные пользователя ' . $userlogin . ' обновлены успешно.');

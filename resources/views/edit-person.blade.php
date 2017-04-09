@@ -180,7 +180,7 @@
                     </div><!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
-                        <button type="submit" class="btn btn-info pull-right">Отправить заявку</button>
+                        <button type="submit" class="btn btn-info pull-right">Сохранить изменения</button>
                     </div>
                 </form>
             </div><!-- /.box -->

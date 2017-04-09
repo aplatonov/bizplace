@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('portfolio', 100)->nullable();
             $table->string('logo', 100)->nullable();
             $table->string('www', 150)->nullable();
+            $table->text('description')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

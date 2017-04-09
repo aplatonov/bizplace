@@ -53,12 +53,9 @@ class PersonalController extends Controller
 
     public function addPerson(Request $request)
     {
+        session(['fromPage' => \URL::previous()]);
         $form = $request->all();
         $form['user_id'] = Auth::user()->id;
-
-        if (isset($form['fromPage'])) {
-            session(['fromPage' => $form['fromPage']]);
-        }
 
         $specialities = Speciality::where('active', true)
             ->get();
@@ -145,9 +142,9 @@ class PersonalController extends Controller
         } //$demand == true
 
         if ($form['isUpdate'] == 1) {
-            return redirect('/'.session('fromPage'))->with(['message' => 'Данные сотрудника '.$person->person_name.' обновлены']);
+            return redirect(session('fromPage'))->with(['message' => 'Данные сотрудника '.$person->person_name.' обновлены']);
         } else {
-            return redirect('/'.session('fromPage'))->with(['message' => 'Сотрудник '.$person->person_name.' добавлен']);
+            return redirect(session('fromPage'))->with(['message' => 'Сотрудник '.$person->person_name.' добавлен']);
         }
     }
 
@@ -183,20 +180,14 @@ class PersonalController extends Controller
                 $data['title'] = Auth::user()->name;
             }
         }
-        else
-        {
-            //пользователю показываем незаблокированных специалистов и его собственнные заблокированные
-            $personal = Personal::where('active', 1);
+
+        if (Auth::user()->isValidUser() || Auth::user()->isUnconfirmedUser()) {
             if (\Route::currentRouteName() == 'userPersonal') {
-                $personal = $personal->where('user_id', Auth::user()->id);
+                $personal = Personal::whereIn('active', [0, 1])->where('user_id', Auth::user()->id);
                 $data['title'] = Auth::user()->name;
             } else {
-                $personal = $personal
-                    ->orWhere(function ($query) {
-                        $query->where('user_id', Auth::user()->id)
-                            ->where('active', 1);
-                    });
-            }      
+                $personal = Personal::where('active', 1);
+            }  
         }
 
         if (!empty($searchText)) {
@@ -232,6 +223,10 @@ class PersonalController extends Controller
     public function edit($id)
     {   
         $person = Personal::findOrFail($id);
+        session(['fromPage' => \URL::previous()]);
+
+        //dd(\URL::previous(), \Request::fullUrl());
+
         $person['technologies'] = $person->personTechnologies->keyBy('id')->keys()->toArray();
         $technologies = Technology::where('active', true)->get();
         $specialities = Speciality::where('active', true)->get();
@@ -242,7 +237,7 @@ class PersonalController extends Controller
                 'specialities' => $specialities]
         );
         } else  {
-            return redirect()->back()->with('message', 'Недостаточно прав для редактирования сотрудника');
+            return redirect(session('fromPage'))->with('message', 'Недостаточно прав для редактирования сотрудника');
         }
     }
 
@@ -255,17 +250,18 @@ class PersonalController extends Controller
     public function destroyPerson($id)
     {
         $person = Personal::findOrFail($id);
+        session(['fromPage' => \URL::previous()]);
         if (Auth::user()->isAdmin() || Auth::user()->id == $person->user_id) {     
             $personName = $person->person_name;
             try {
             	DB::table('personal_has_technology')->where('person_id', $id)->delete();
                 $person->delete();
-                return redirect()->back()->with('message', 'Сотрудник '.$personName.' удален');
+                return redirect(session('fromPage'))->with('message', 'Сотрудник '.$personName.' удален');
             } catch (Exception $e) {
-                return redirect()->back()->with('message', 'Невозможно удалить сотрудника '.$personName);
+                return redirect(session('fromPage'))->with('message', 'Невозможно удалить сотрудника '.$personName);
             }
         } else {
-            return redirect()->back()->with('message', 'Недостаточно прав для удаления сотрудника');
+            return redirect(session('fromPage'))->with('message', 'Недостаточно прав для удаления сотрудника');
         }
     }
     

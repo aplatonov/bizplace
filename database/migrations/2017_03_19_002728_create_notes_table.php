@@ -20,7 +20,7 @@ class CreateNotesTable extends Migration
             $table->integer('to_user_id')->unsigned()->nullable();
             $table->integer('from_user_id')->unsigned()->nullable();
             $table->integer('note_category_id')->unsigned();
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
 

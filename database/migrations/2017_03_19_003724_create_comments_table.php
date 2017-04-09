@@ -19,7 +19,7 @@ class CreateCommentsTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('company_id')->unsigned()->nullable();
             $table->string('author_name', 50);
-            $table->string('author_position', 50);
+            $table->string('author_position', 50)->nullable()->default(null);
             $table->boolean('active')->default(true);
             $table->boolean('visible_on_main')->default(false);
             $table->integer('raiting')->nullable();

@@ -52,6 +52,7 @@
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=hour_rate&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Ставка, р/час</a>{!! $data['page_appends']['order'] == 'hour_rate' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=speciality_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специальность</a>{!! $data['page_appends']['order'] == 'speciality_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center">Конт. инф.</th>
+                        <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=active&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Активен</a>{!! $data['page_appends']['order'] == 'active' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-right"></th>
                     </tr>
 
@@ -92,7 +93,9 @@
                                     <div><span class="badge badge-warning">Нет прав</span></div>
                                 @endif
                             </td>
-
+                            <td class="text-center">
+                                {!! $person->active ? '' : '<div><span class="badge badge-warning">нет</span></div>' !!}
+                            </td>
                             <td class="text-right">
                                 @if (Auth::user()->id == $person->user_id || Auth::user()->isAdmin())
                                     <form method="POST" action="{{action('PersonalController@destroyPerson',['id'=>$person->id])}}">

@@ -46,3 +46,17 @@ Route::post('/projects/active/{id}','ProjectsController@confirmProject');
 Route::get('/projects/add','ProjectsController@addProject'); 
 Route::post('/projects','ProjectsController@storeProject'); 
 Route::get('/projects/{id}/edit','ProjectsController@edit');
+
+Route::get('/companies','UserController@showCompanies')->name('companies');
+Route::post('/companies/info/{id}','UserController@showCompanyInfo');
+
+Route::get('/admin/comments','CommentsController@showComments');
+Route::delete('/admin/comments/delete/{id}','CommentsController@destroyComment');
+Route::get('/admin/comments/add','CommentsController@addComment');
+Route::post('/admin/comments/block/{id}','CommentsController@blockComment');
+Route::post('/admin/comments','CommentsController@storeComment');
+Route::get('/admin/comments/{id}/edit','CommentsController@edit');
+Route::get('/comments','CommentsController@showCommentsMain');
+Route::get('/comments/add','CommentsController@addCommentMain');
+
+Route::resource('/admin/specialities','SpecialitiesController');

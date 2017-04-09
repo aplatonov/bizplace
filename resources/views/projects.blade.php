@@ -48,6 +48,7 @@
                     <tr>
                         <th class="text-center"><a href="?page={{ $data['projects']->currentPage() }}&order=id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Код</a>{!! $data['page_appends']['order'] == 'id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th><a href="?page={{ $data['projects']->currentPage() }}&order=project_name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Название</a>{!! $data['page_appends']['order'] == 'project_name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
+                        <th>&nbsp;</th>
                         <th class="text-center"><a href="?page={{ $data['projects']->currentPage() }}&order=budget&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Бюждет</a>{!! $data['page_appends']['order'] == 'budget' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['projects']->currentPage() }}&order=start_date&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Сроки</a>{!! $data['page_appends']['order'] == 'start_date' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['projects']->currentPage() }}&order=speciality_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Направление</a>{!! $data['page_appends']['order'] == 'speciality_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
@@ -73,6 +74,11 @@
                                         
                                     @endforelse
                                 </small>
+                            </td>
+                            <td class="mailbox-attachment">
+                                @if (!Auth::guest() && Auth::user()->confirmed == 1 && Auth::user()->valid == 1 && $project->doc)
+                                    <a href="{{ isset($project->doc) ? Storage::url($project->doc) : '' }}"><i class="fa fa-paperclip"></i></a>
+                                @endif
                             </td>
                             <td class="text-center">{{ $project->budget }}</td>
                             <td class="text-center">

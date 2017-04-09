@@ -15,7 +15,7 @@ class Users extends Model
      * @var array
      */
     protected $fillable = [
-        'login', 'email', 'password', 'name', 'contact_person', 'phone', 'tarif_id', 'pay_till', 'role_id', 'valid', 'confirmed', 'confirmation_code', 'portfolio', 'logo', 'www',
+        'login', 'email', 'password', 'name', 'contact_person', 'phone', 'tarif_id', 'pay_till', 'role_id', 'valid', 'confirmed', 'confirmation_code', 'portfolio', 'logo', 'www', 'description',
     ];
 
     /**
@@ -37,4 +37,13 @@ class Users extends Model
         return $this->hasMany('App\Personal', 'user_id', 'id');
     }
 
+    public function technologies()
+    {
+        return $this->belongsToMany('App\Technology', 'users_has_technology', 'user_id', 'technology_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comments', 'company_id', 'id');
+    }
 }

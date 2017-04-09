@@ -128,7 +128,7 @@ return [
                 [
                     'text' => 'Направления',
                     'icon' => 'sitemap',
-                    'url'  => '#',
+                    'url'  => '/admin/specialities',
                 ],
                 [
                     'text' => 'Технологии',
@@ -148,7 +148,7 @@ return [
                 [
                     'text' => 'Управление отзывами',
                     'icon' => 'comments',
-                    'url'  => '#',
+                    'url'  => '/admin/comments',
                 ],
             ],
         ],
@@ -192,7 +192,7 @@ return [
         ],
         [
             'text' => 'Компании',
-            'url'  => '#',
+            'url'  => '/companies',
             'icon' => 'bookmark',
         ],
         [
@@ -202,7 +202,7 @@ return [
         ],
         [
             'text' => 'Отзывы',
-            'url'  => '#',
+            'url'  => '/comments',
             'icon' => 'comments',
         ],
         [
