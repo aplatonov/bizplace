@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Exception;
-use App\Speciality;
+use App\Technology;
 
-class SpecialitiesController extends Controller
+class TechnologiesController extends Controller
 {
     /* Create a new controller instance.
     *
@@ -24,8 +24,8 @@ class SpecialitiesController extends Controller
      */
     public function index()
     {
-        $specialities =  Speciality::all();
-        return view('specialities.index',['specialities' => $specialities]);
+        $technologies =  Technology::all();
+        return view('technologies.index',['technologies' => $technologies]);
     }
 
     /**
@@ -35,7 +35,7 @@ class SpecialitiesController extends Controller
      */
     public function create()
     {
-        return view('specialities.create');
+        return view('technologies.create');
     }
 
     /**
@@ -47,18 +47,18 @@ class SpecialitiesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name'=> 'required|max:60',
+            'name'=> 'required|max:30',
         ]);
 
         $form = $request->all();
         $form['active'] = isset($form['active']) ? 1 : 0;
 
-        $speciality = Speciality::create($form);
+        $technology = Technology::create($form);
 
-        if($speciality) {
-            return redirect()->route('specialities.index')->with(['message' => 'Специализация создана']);
+        if($technology) {
+            return redirect()->route('technologies.index')->with(['message' => 'Технология создана']);
         } else {
-            return redirect()->route('specialities.index')->with(['message' => 'При сохранении специализации произошла ошибка']);
+            return redirect()->route('technologies.index')->with(['message' => 'При сохранении технологии произошла ошибка']);
         }
     }
 
@@ -81,8 +81,8 @@ class SpecialitiesController extends Controller
      */
     public function edit($id)
     {
-        $speciality = Speciality::findOrFail($id);
-        return view('specialities.edit',compact('speciality'));
+        $technology = Technology::findOrFail($id);
+        return view('technologies.edit',compact('technology'));
     }
 
     /**
@@ -95,19 +95,19 @@ class SpecialitiesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name'=> 'required|max:60',
+            'name'=> 'required|max:30',
         ]);
 
         $form = $request->all();
         $form['active'] = isset($form['active']) ? 1 : 0;
 
-        $speciality = Speciality::findOrFail($id);
-        $speciality->update($form);
+        $technology = Technology::findOrFail($id);
+        $technology->update($form);
 
-        if($speciality) {
-            return redirect()->route('specialities.index')->with(['message' => 'Специализация обновлена']);
+        if($technology) {
+            return redirect()->route('technologies.index')->with(['message' => 'Технология обновлена']);
         } else {
-            return redirect()->route('specialities.index')->with(['message' => 'При обновлении специализации произошла ошибка']);
+            return redirect()->route('technologies.index')->with(['message' => 'При обновлении технологии произошла ошибка']);
         }
     }
 
@@ -119,12 +119,12 @@ class SpecialitiesController extends Controller
      */
     public function destroy($id)
     {
-        $speciality = Speciality::findOrFail($id);
+        $technology = Technology::findOrFail($id);
         try {
-            $speciality->delete();
-            return redirect()->route('specialities.index')->with(['message' => 'Специализация удалена']);
+            $technology->delete();
+            return redirect()->route('technologies.index')->with(['message' => 'Технология удалена']);
         } catch (Exception $e) {
-            return redirect()->route('specialities.index')->with(['message' => 'При удалении специализации произошла ошибка']);
+            return redirect()->route('technologies.index')->with(['message' => 'При удалении технологии произошла ошибка']);
         }
     }
 }

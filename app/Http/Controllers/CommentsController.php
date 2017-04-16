@@ -17,6 +17,8 @@ use App\Users;
 
 class CommentsController extends Controller
 {
+    use NotesTrait;
+
 	/**
      * Create a new controller instance.
      *
@@ -126,6 +128,10 @@ class CommentsController extends Controller
             $comment->update($form);
         } else {
             $comment = Comments::create($form);
+            $this->commentNote($comment->author_position . ' ' . $comment->author_name,
+                $comment->description,
+                $comment->company_id,
+                $comment->user_id);
         }
 
         if ($form['isUpdate'] == 1) {

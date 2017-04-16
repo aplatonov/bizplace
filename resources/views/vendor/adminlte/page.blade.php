@@ -56,45 +56,71 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+
+                    <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown messages-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="label label-success">{{ count($notes['forms'])>0 ? $notes['forms']->sum('notes_count') : '' }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">{{ count($notes['forms'])>0 ? $notes['forms']->sum('notes_count') : 'нет' }} новых отзывов и сообщений</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        @foreach($notes['forms'] as $noteForm)
+                                            <li><!-- start message -->
+                                                <a href="##">
+                                                    <p><h5><strong>{{$noteForm->notes_count}}</strong>&nbsp;нов. {{$noteForm->name}}</h5></p>
+                                                    <h4>&nbsp;
+                                                        <small><i class="fa fa-clock-o"></i> {{ isset($noteForm->note_last) ? 'последний '.\Carbon\Carbon::parse($noteForm->note_last)->format('в H:i d.m.Y') : '' }}</small>
+                                                    </h4>
+                                                </a>
+                                            </li> <!-- end message -->
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="{{ Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes' }}">Все отзывы и сообщения</a></li>
+                            </ul>
+                        </li>
                         <!-- Notifications -->
                         <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
+                                <span class="label label-warning">{{ $notes['sumNotif']>0 ? $notes['sumNotif'] : '' }}</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">За последние сутки у вас 10 новых объектов</li>
+                                <li class="header">{{ $notes['sumNotif']>0 ? $notes['sumNotif'] : 'нет' }} новых оповещений</li>
                                 <li>
                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
-                                      <li>
-                                        <a href="#">
-                                          <i class="fa fa-bookmark text-aqua"></i> 5 компаний зарегистрировано
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">
-                                          <i class="fa fa-gears text-yellow"></i> 3 проекта добавлено</i> 
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">
-                                          <i class="fa fa-users text-red"></i> 15 новых специалистов
-                                        </a>
-                                      </li>
-
-                                      <li>
-                                        <a href="#">
-                                          <i class="fa fa-mail-forward text-green"></i> 25 запросов контактной информации
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">
-                                          <i class="fa fa-comments text-red"></i> 4 новых отзыва
-                                        </a>
-                                      </li>
+                                        @if (Auth::user()->isAdmin())
+                                            <li>
+                                                <a href="##">
+                                                   Новые пользователи - <strong>{{ $notes['newUsers'] }}</strong>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="##">
+                                                   Новые проекты - <strong>{{ $notes['newProjects'] }}</strong>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="##">
+                                                   Новые сотрудники - <strong>{{ $notes['newPersonal'] }}</strong>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @foreach ($notes['notif'] as $notif)
+                                            <li>
+                                                <a href="##">
+                                                   {{$notif->name}} - <strong>{{ $notif->notes_count }}</strong>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
+                                <li class="footer"><a href="{{ Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes' }}">Все оповещения</a></li>
                             </ul>
                         </li>
                     

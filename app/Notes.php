@@ -13,7 +13,21 @@ class Notes extends Model
      * @var array
      */
     protected $fillable = [
-        'note_name', 'description', 'to_user_id', 'from_user_id', 'note_category_id', 'active',
+        'note_name', 'description', 'to_user_id', 'from_user_id', 'note_category_id', 'active', 'link',
     ];
 
+    public function to()
+    {
+        return $this->belongsTo('App\Users', 'to_user_id', 'id');
+    }
+
+	public function from()
+    {
+        return $this->belongsTo('App\Users', 'from_user_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\NotesCategory', 'note_category_id', 'id');
+    }
 }

@@ -3,12 +3,12 @@
 @section('title', config('app.name', 'BizPlace'))
 
 @section('content_header')
-    <h1>Специализации</h1>
+    <h1>&nbsp;</h1>
     <ol class="breadcrumb">
         <li><a href="/home"><i class="fa fa-dashboard"></i> Главное меню</a></li>
         <li><a href="##"> Администратор</a></li>
-        <li><a href="/specialities"> Специализации</a></li>
-        <li class="active"> Создание специализации</li>
+        <li><a href="/admin/specialities"> Специализации</a></li>
+        <li class="active"> Добавление специализации</li>
     </ol>
 @stop
 
@@ -17,7 +17,7 @@
         <div class="col-xs-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title"></h3>
+                    <h3 class="box-title">Добавление специализации</h3>
                 </div><!-- /.box-header -->
                 <form role="form" method="POST" action="{{route('specialities.store')}}">
                     {{ csrf_field() }}

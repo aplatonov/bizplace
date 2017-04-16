@@ -17,6 +17,8 @@ use Response;
 
 class UserController extends Controller
 {
+    use NotesTrait;
+    
     /**
      * Create a new controller instance.
      *
@@ -65,6 +67,7 @@ class UserController extends Controller
             $company = Users::findOrFail($request->input('company_id'));
             $company_info = '<small>' . $company->contact_person . '<br>' . $company->phone . '<small>';
             $data = array( 'text' => 'success', 'company_info' => $company_info);
+            $this->companyNote($request->input('company_id'), Auth::user()->id);
         } else {
             $data = array( 'text' => 'fail' . $request->input('action') );
         }

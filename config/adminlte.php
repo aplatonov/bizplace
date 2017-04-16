@@ -126,24 +126,24 @@ return [
                     'url'  => '/admin/users',
                 ],
                 [
-                    'text' => 'Направления',
+                    'text' => 'Направления/спец-ии',
                     'icon' => 'sitemap',
                     'url'  => '/admin/specialities',
                 ],
                 [
                     'text' => 'Технологии',
                     'icon' => 'cubes',
-                    'url'  => '#',
+                    'url'  => '/admin/technologies',
                 ],
                 [
-                    'text' => 'Сообщения',
+                    'text' => 'Оповещения',
                     'icon' => 'bell',
-                    'url'  => '#',
+                    'url'  => '/admin/notes',
                 ],
                 [
-                    'text' => 'Категории сообщений',
+                    'text' => 'Категории оповещений',
                     'icon' => 'bookmark',
-                    'url'  => '#',
+                    'url'  => '/admin/notecategories',
                 ],
                 [
                     'text' => 'Управление отзывами',
@@ -182,6 +182,11 @@ return [
                     'icon' => 'plus-circle',
                     'url'  => '/projects/add',
                 ],
+                [
+                    'text' => 'Мои оповещения',
+                    'icon' => 'bell',
+                    'url'  => '/userNotes',
+                ],
             ],
         ],
         'BIZPLACE',
@@ -207,17 +212,17 @@ return [
         ],
         [
             'text' => 'Контакты',
-            'url'  => '#',
+            'url'  => '/contacts',
             'icon' => 'globe',
         ],
         [
             'text' => 'О нас',
-            'url'  => '#',
+            'url'  => '/about',
             'icon' => 'info',
         ],
         [
             'text' => 'Конфеденциальность',
-            'url'  => '#',
+            'url'  => '/confidential',
             'icon' => 'newspaper-o',
         ],
         [

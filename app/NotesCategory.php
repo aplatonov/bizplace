@@ -13,6 +13,6 @@ class NotesCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name', 'active',
     ];
 }

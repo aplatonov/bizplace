@@ -6,7 +6,7 @@ trait UserRelations
 {
     public function isAdmin()
     {
-        return ($this->role_id == 1) ? true : false;
+        return ($this->role_id == 1 && $this->valid && $this->confirmed) ? true : false;
     }
 
     public function isValidUser()

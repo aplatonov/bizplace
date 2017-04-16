@@ -60,3 +60,14 @@ Route::get('/comments','CommentsController@showCommentsMain');
 Route::get('/comments/add','CommentsController@addCommentMain');
 
 Route::resource('/admin/specialities','SpecialitiesController');
+Route::resource('/admin/technologies','TechnologiesController');
+Route::resource('/admin/notecategories','NoteCategoriesController');
+
+Route::get('/contacts','HomeController@getContacts');
+Route::post('/contacts','HomeController@sendFeedback');
+Route::get('/about','HomeController@getAbout');
+Route::get('/confidential','HomeController@getConfidential');
+
+Route::get('/admin/notes','NotesController@showNotes')->name('notes');
+Route::delete('/admin/notes/delete/{id}','NotesController@destroyNote');
+Route::get('/userNotes','NotesController@showUserNotes')->name('userNotes');

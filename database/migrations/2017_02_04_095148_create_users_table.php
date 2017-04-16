@@ -31,6 +31,8 @@ class CreateUsersTable extends Migration
             $table->string('logo', 100)->nullable();
             $table->string('www', 150)->nullable();
             $table->text('description')->nullable()->default(null);
+            $table->datetime('prev_login')->nullable()->default(null);
+            $table->datetime('last_login')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -21,6 +21,8 @@ use App\ProjectsHasTechnology;
 
 class ProjectsController extends Controller
 {
+    use NotesTrait;
+
     /**
      * Create a new controller instance.
      *
@@ -251,6 +253,7 @@ class ProjectsController extends Controller
             $project = Projects::findOrFail($request->input('project_id'));
             $project_info = '<small>' . $project->user->name . '<br>' . $project->user->contact_person . '<br>' . $project->user->phone . '<small>';
             $data = array( 'text' => 'success', 'project_info' => $project_info);
+            $this->projectNote($project->user->id, Auth::user()->id, $project->id);
         } else {
             $data = array( 'text' => 'fail' . $request->input('action') );
         }

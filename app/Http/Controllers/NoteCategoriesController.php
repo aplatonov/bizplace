@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Exception;
-use App\Speciality;
+use App\NotesCategory;
 
-class SpecialitiesController extends Controller
+class NoteCategoriesController extends Controller
 {
     /* Create a new controller instance.
     *
@@ -24,8 +24,8 @@ class SpecialitiesController extends Controller
      */
     public function index()
     {
-        $specialities =  Speciality::all();
-        return view('specialities.index',['specialities' => $specialities]);
+        $notecategories =  NotesCategory::all();
+        return view('notecategories.index',['notecategories' => $notecategories]);
     }
 
     /**
@@ -35,7 +35,7 @@ class SpecialitiesController extends Controller
      */
     public function create()
     {
-        return view('specialities.create');
+        return view('notecategories.create');
     }
 
     /**
@@ -47,18 +47,18 @@ class SpecialitiesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name'=> 'required|max:60',
+            'name'=> 'required|max:30',
         ]);
 
         $form = $request->all();
         $form['active'] = isset($form['active']) ? 1 : 0;
 
-        $speciality = Speciality::create($form);
+        $notecategory = NotesCategory::create($form);
 
-        if($speciality) {
-            return redirect()->route('specialities.index')->with(['message' => 'Специализация создана']);
+        if($notecategory) {
+            return redirect()->route('notecategories.index')->with(['message' => 'Тип сообщения создан']);
         } else {
-            return redirect()->route('specialities.index')->with(['message' => 'При сохранении специализации произошла ошибка']);
+            return redirect()->route('notecategories.index')->with(['message' => 'При сохранении типа сообщения произошла ошибка']);
         }
     }
 
@@ -81,8 +81,8 @@ class SpecialitiesController extends Controller
      */
     public function edit($id)
     {
-        $speciality = Speciality::findOrFail($id);
-        return view('specialities.edit',compact('speciality'));
+        $notecategory = NotesCategory::findOrFail($id);
+        return view('notecategories.edit',compact('notecategory'));
     }
 
     /**
@@ -95,19 +95,21 @@ class SpecialitiesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'name'=> 'required|max:60',
+            'name'=> 'required|max:30',
         ]);
 
         $form = $request->all();
+
         $form['active'] = isset($form['active']) ? 1 : 0;
+        //dd($form);
 
-        $speciality = Speciality::findOrFail($id);
-        $speciality->update($form);
+        $notecategory = NotesCategory::findOrFail($id);
+        $notecategory->update($form);
 
-        if($speciality) {
-            return redirect()->route('specialities.index')->with(['message' => 'Специализация обновлена']);
+        if($notecategory) {
+            return redirect()->route('notecategories.index')->with(['message' => 'Тип сообщения обновлен']);
         } else {
-            return redirect()->route('specialities.index')->with(['message' => 'При обновлении специализации произошла ошибка']);
+            return redirect()->route('notecategories.index')->with(['message' => 'При обновлении типа сообщения произошла ошибка']);
         }
     }
 
@@ -119,12 +121,12 @@ class SpecialitiesController extends Controller
      */
     public function destroy($id)
     {
-        $speciality = Speciality::findOrFail($id);
+        $notecategory = NotesCategory::findOrFail($id);
         try {
-            $speciality->delete();
-            return redirect()->route('specialities.index')->with(['message' => 'Специализация удалена']);
+            $notecategory->delete();
+            return redirect()->route('notecategories.index')->with(['message' => 'Тип сообщения удален']);
         } catch (Exception $e) {
-            return redirect()->route('specialities.index')->with(['message' => 'При удалении специализации произошла ошибка']);
+            return redirect()->route('notecategories.index')->with(['message' => 'При удалении типа сообщения произошла ошибка']);
         }
     }
 }

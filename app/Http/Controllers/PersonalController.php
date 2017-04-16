@@ -21,6 +21,8 @@ use App\PersonalHasTechnology;
 
 class PersonalController extends Controller
 {
+    use NotesTrait;
+
     /**
      * Create a new controller instance.
      *
@@ -271,6 +273,7 @@ class PersonalController extends Controller
             $person = Personal::findOrFail($request->input('person_id'));
             $person_info = '<small>' . $person->user->name . '<br>' . $person->user->contact_person . '<br>' . $person->user->phone . '<small>';
             $data = array( 'text' => 'success', 'person_info' => $person_info);
+            $this->personalNote($person->user->id, Auth::user()->id, $person->id);
         } else {
             $data = array( 'text' => 'fail' . $request->input('action') );
         }

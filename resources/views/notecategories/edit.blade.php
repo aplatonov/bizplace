@@ -7,8 +7,8 @@
     <ol class="breadcrumb">
         <li><a href="/home"><i class="fa fa-dashboard"></i> Главное меню</a></li>
         <li><a href="##"> Администратор</a></li>
-        <li><a href="/admin/specialities"> Специализации</a></li>
-        <li class="active"> Редактирование специализации</li>
+        <li><a href="/admin/notecategories"> Типы сообщений</a></li>
+        <li class="active"> Редактирование типа сообщения</li>
     </ol>
 @stop
 
@@ -17,9 +17,9 @@
          <div class="col-xs-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Редактирование специализации</h3>
+                    <h3 class="box-title">Редактирование типа сообщения</h3>
                 </div><!-- /.box-header -->
-                <form role="form" method="POST" action="{{ route('specialities.update', $speciality->id) }}">
+                <form role="form" method="POST" action="{{ route('notecategories.update', $notecategory->id) }}">
                     <input name="_method" type="hidden" value="PATCH">
                     {{ csrf_field() }}
                     <div class="box-body">
@@ -30,7 +30,7 @@
                                     <div class="box-body">
                                         <div class="form-group col-xs-12">
                                             <label for="name">Название</label>
-                                            <input type="text" class="form-control" id="name" name="name" value="{{ $speciality->name }}">
+                                            <input type="text" class="form-control" id="name" name="name" value="{{ $notecategory->name }}">
                                             @if ($errors->has('name'))
                                                 <span class="text-danger">
                                                     <strong><small>{{ $errors->first('name') }}</small></strong>
@@ -41,7 +41,7 @@
                                         <div class="form-group col-xs-12">
                                             <div class="checkbox">
                                                 <label for="active">
-                                                    <input type="checkbox" id="active" name="active" {{ $speciality->active ? 'checked' : ''}} value="1">
+                                                    <input type="checkbox" id="active" name="active" {{ $notecategory->active ? 'checked' : ''}} value="1">
                                                     Активно
                                                 </label>
                                                 @if ($errors->has('active'))
@@ -59,7 +59,7 @@
                         </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer clearfix">
-                        <a href="{{ route('specialities.index') }}"><button type="button" class="btn btn-default">Отмена</button></a>
+                        <a href="{{ route('notecategories.index') }}"><button type="button" class="btn btn-default">Отмена</button></a>
                         <button type="submit" class="btn btn-info pull-right">Сохранить</button>
                     </div>
                 </form>
