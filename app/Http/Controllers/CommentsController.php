@@ -96,7 +96,7 @@ class CommentsController extends Controller
 
     public function addComment()
     {
-        $companies = Users::where('valid', true)
+        $companies = Users::where('confirmed', true)
             ->get();
 
         session(['fromPage' => \URL::previous()]);

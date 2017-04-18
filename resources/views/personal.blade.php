@@ -27,7 +27,10 @@
                 <form method="GET" action="{{ url('/personal/add') }}" id="addPersonalForm" style="display:none;">
                     <input type="hidden" name="fromPage" value="{{ Route::current()->getName() }}" id="fromPage">
                 </form>
-                <button class="btn btn-primary btn-sm pull-left" type="submit" onclick = "document.getElementById('addPersonalForm').submit();"><i class="fa fa-user-plus pull-left"></i>Добавить сотрудника</button>
+                &nbsp;
+                @can('user-valid')
+                    <button class="btn btn-primary btn-sm pull-left" type="submit" onclick = "document.getElementById('addPersonalForm').submit();"><i class="fa fa-user-plus pull-left"></i>Добавить сотрудника</button>
+                @endcan
                 <div class="box-tools">
                     <div class="input-group input-group-sm" style="width: 250px;">
                         <form method="GET" action="{{ Route::current()->getName() }}" id="searchForm" style="display:none;">

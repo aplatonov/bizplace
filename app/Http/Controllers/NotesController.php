@@ -59,16 +59,55 @@ class NotesController extends Controller
     public function destroyNote($id)
     {
         $note = Notes::findOrFail($id);
-        if (Auth::user()->isAdmin()) {     
+        $backPath = Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes';
+        if (Auth::user()->isAdmin() || Auth::user()->id == $note->to_user_id) {     
             $noteName = $note->note_name;
             try {
                 $note->delete();
-                return redirect('/admin/notes')->with('message', 'Заметка '.$noteName.' удалена');
+                return redirect($backPath)->with('message', 'Заметка '.$noteName.' удалена');
             } catch (Exception $e) {
-                return redirect('/admin/notes')->with('message', 'Невозможно удалить заметку '.$noteName);
+                return redirect($backPath)->with('message', 'Невозможно удалить заметку '.$noteName);
             }
         } else {
-            return redirect('/admin/notes')->with('message', 'Недостаточно прав для удаления заметки');
+            return redirect($backPath)->with('message', 'Недостаточно прав для удаления заметки');
         }
+    }
+
+    public function showUserNotes(Request $request)
+    {
+        $order = $request->get('order'); 
+        $dir = $request->get('dir'); 
+        $page_appends = null;
+        $searchText = $request->get('searchText');
+
+        $notes = Notes::whereIn('active', [1])
+                        ->where('to_user_id', Auth::user()->id);
+        if(Auth::user()->isAdmin()) {
+            $notes = $notes->orWhere('to_user_id', null);
+        }
+            
+        if ($searchText>0) {
+            $notes = $notes
+                ->where('note_category_id', $searchText);
+        }
+
+        if ($order && $dir) {
+            $notes = $notes->orderBy($order, $dir);
+            $page_appends = [
+                'order' => $order,
+                'dir' => $dir,
+            ];
+        }
+
+        $notes = $notes->paginate(50)->appends(['searchText' => $searchText]);
+        $notesCategory = NotesCategory::all();
+
+        $data['notes'] = $notes;
+        $data['dir'] = $dir == 'asc' ? 'desc' : 'asc';
+        $data['page_appends'] = $page_appends;
+        $data['searchText'] = $searchText;
+        $data['notesCategory'] = $notesCategory;
+
+        return view('user-notes', ['data' => $data]);
     }
 }

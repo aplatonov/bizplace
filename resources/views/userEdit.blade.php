@@ -161,6 +161,22 @@
                                         <label class="col-xs-12 control-label"><span class="badge badge-warning">Логин заблокирован!</span><br><small>обратитесь к администратору</small></label>
                                     </div>
                                 @endif
+                                <div class="form-group col-xs-6" @if(Auth::user()->isAdmin() == true) style="display: block;" @else style="display: none;" @endif>
+                                    <div class="checkbox">
+                                        <label for="valid">
+                                            <input type="checkbox" id="valid" name="valid" {{ $user->valid ? 'checked' : ''}} value="1">
+                                            Действующий
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-6" @if(Auth::user()->isAdmin() == true) style="display: block;" @else style="display: none;" @endif>
+                                    <div class="checkbox">
+                                        <label for="confirmed">
+                                            <input type="checkbox" id="confirmed" name="confirmed" {{ $user->confirmed ? 'checked' : ''}} value="1">
+                                            Подтвержден
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div> <!-- /left column -->

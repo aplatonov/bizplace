@@ -156,11 +156,13 @@ return [
             'text' => 'Личный кабинет',
             'icon' => 'user',
             'icon_color' => 'aqua',
+            'can'  => 'user-unconfirmed',
             'submenu' => [
                 [
                     'text' => 'Редактировать профиль',
                     'icon' => 'edit',
                     'url'  => "/users/editprofile",
+                    'can'  => 'user-unconfirmed',
                 ],
                 [
                     'text' => 'Мои специалисты',
@@ -176,11 +178,13 @@ return [
                     'text' => 'Добавить специалиста',
                     'icon' => 'user-plus',
                     'url'  => '/personal/add',
+                    'can'  => 'user-valid',
                 ],
                 [
                     'text' => 'Добавить проект',
                     'icon' => 'plus-circle',
                     'url'  => '/projects/add',
+                    'can'  => 'user-valid',
                 ],
                 [
                     'text' => 'Мои оповещения',

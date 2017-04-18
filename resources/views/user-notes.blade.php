@@ -58,7 +58,6 @@
                         <th class="text-center"><a href="?page={{ $data['notes']->currentPage() }}&order=note_category_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Категория</a>{!! $data['page_appends']['order'] == 'note_category_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th><a href="?page={{ $data['notes']->currentPage() }}&order=note_name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Оповещение</a>{!! $data['page_appends']['order'] == 'note_name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['notes']->currentPage() }}&order=from_user_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">От кого</a>{!! $data['page_appends']['order'] == 'from_user_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
-                        <th class="text-center"><a href="?page={{ $data['notes']->currentPage() }}&order=to_user_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Кому</a>{!! $data['page_appends']['order'] == 'to_user_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-right"></th>
                     </tr>
 
@@ -88,14 +87,9 @@
                                     <a href="{{ isset($note->to) ? url('/users/edit/'.$note->to_user_id) : 'null'  }}">{{ isset($note->to) ? $note->to->name : null }}</a>
                                 @endif
                             </td>
-                            <td class="text-center">{!! isset($note->from) ? '<a href=\'/users/edit/'.$note->from->id.'\'>': '' !!}
-                                {{ isset($note->from) ? $note->from->name : 'null' }}
-                                {!! isset($note->from) ? '</a>': '' !!}</td>
-                            <td class="text-center">{!! isset($note->to) ? '<a href=\'/users/edit/'.$note->to->id.'\'>': '' !!}
-                                {{ isset($note->to) ? $note->to->name : null }}</td>
-                                {!! isset($note->to) ? '</a>': '' !!}
+                            <td class="text-center">{{ isset($note->from) ? $note->from->name : 'null' }}</td>
                             <td class="text-center">
-                                @if (Auth::user()->isAdmin())
+                                @if (Auth::user()->isAdmin() || Auth::user()->isValidUser())
                                     <form method="POST" action="{{action('NotesController@destroyNote',['id'=>$note->id])}}">
                                         <input type="hidden" name="_method" value="delete"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}"/>

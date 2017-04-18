@@ -155,6 +155,8 @@ class UserController extends Controller
             'logo' => 'file|max:500|mimes:jpg,jpeg,png,gif'
         ]);
 
+        $form['valid'] = isset($form['valid']) ? 1 : 0;
+        $form['confirmed'] = isset($form['confirmed']) ? 1 : 0;
         $path = $oldLogo;
         if ($request->file('logo')) {
             try {
