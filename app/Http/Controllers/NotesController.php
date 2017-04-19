@@ -24,6 +24,7 @@ class NotesController extends Controller
 
     public function showNotes(Request $request)
     {
+        $this->authorize('admin-control');
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
         $page_appends = null;
@@ -53,11 +54,19 @@ class NotesController extends Controller
         $data['searchText'] = $searchText;
         $data['notesCategory'] = $notesCategory;
 
+        $user=Auth::user();
+        if ($user) {
+            $user->prev_login = $user->last_login;
+            $user->last_login = \Carbon\Carbon::now();
+            $user->save();
+        }
+
         return view('vendor.admin.notes', ['data' => $data]);
     }
 
     public function destroyNote($id)
     {
+        $this->authorize('user-valid');
         $note = Notes::findOrFail($id);
         $backPath = Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes';
         if (Auth::user()->isAdmin() || Auth::user()->id == $note->to_user_id) {     
@@ -75,6 +84,7 @@ class NotesController extends Controller
 
     public function showUserNotes(Request $request)
     {
+        $this->authorize('user-unconfirmed');
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
         $page_appends = null;
@@ -107,6 +117,13 @@ class NotesController extends Controller
         $data['page_appends'] = $page_appends;
         $data['searchText'] = $searchText;
         $data['notesCategory'] = $notesCategory;
+
+        $user=Auth::user();
+        if ($user) {
+            $user->prev_login = $user->last_login;
+            $user->last_login = \Carbon\Carbon::now();
+            $user->save();
+        }
 
         return view('user-notes', ['data' => $data]);
     }

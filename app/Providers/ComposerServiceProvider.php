@@ -79,11 +79,11 @@ class ComposerServiceProvider extends ServiceProvider
                         ->get();
                     $notes['sumNotif'] = $notes['notif']->sum('notes_count') ;
                 }
-                
-                $view->with(['notes' => $notes]);
             } else {
-                $view->with(['notes' => []]);
+                $notes['notif'] = [];
+                $notes['forms'] = [];
             }
+            $view->with(['notes' => $notes]);
         });
 
     }

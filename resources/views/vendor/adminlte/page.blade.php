@@ -56,129 +56,139 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-
-                    <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">{{ count($notes['forms'])>0 ? $notes['forms']->sum('notes_count') : '' }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">{{ count($notes['forms'])>0 ? $notes['forms']->sum('notes_count') : 'нет' }} новых отзывов и сообщений</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        @foreach($notes['forms'] as $noteForm)
-                                            <li><!-- start message -->
-                                                <a href="##">
-                                                    <p><h5><strong>{{$noteForm->notes_count}}</strong>&nbsp;нов. {{$noteForm->name}}</h5></p>
-                                                    <h4>&nbsp;
-                                                        <small><i class="fa fa-clock-o"></i> {{ isset($noteForm->note_last) ? 'последний '.\Carbon\Carbon::parse($noteForm->note_last)->format('в H:i d.m.Y') : '' }}</small>
-                                                    </h4>
-                                                </a>
-                                            </li> <!-- end message -->
-                                        @endforeach
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="{{ Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes' }}">Все отзывы и сообщения</a></li>
-                            </ul>
-                        </li>
-                        <!-- Notifications -->
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">{{ $notes['sumNotif']>0 ? $notes['sumNotif'] : '' }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">{{ $notes['sumNotif']>0 ? $notes['sumNotif'] : 'нет' }} новых оповещений</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        @if (Auth::user()->isAdmin())
-                                            <li>
-                                                <a href="##">
-                                                   Новые пользователи - <strong>{{ $notes['newUsers'] }}</strong>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="##">
-                                                   Новые проекты - <strong>{{ $notes['newProjects'] }}</strong>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="##">
-                                                   Новые сотрудники - <strong>{{ $notes['newPersonal'] }}</strong>
-                                                </a>
-                                            </li>
+                        @if (Auth::guest())
+                            <li><a href="{{ route('login') }}">Вход</a></li>
+                            <li><a href="{{ route('register') }}">Регистрация</a></li>
+                        @else
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">{{ count($notes['forms'])>0 ? $notes['forms']->sum('notes_count') : '' }}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header"><strong>{{ count($notes['forms'])>0 ? $notes['forms']->sum('notes_count') : 'нет' }} новых отзывов и сообщений</strong></li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            @foreach($notes['forms'] as $noteForm)
+                                                <li><!-- start message -->
+                                                    <a href="##">
+                                                        <p><h5><span class="badge">{{$noteForm->notes_count}}</span>&nbsp;нов. {{$noteForm->name}}</h5></p>
+                                                        <h4>&nbsp;
+                                                            <small><i class="fa fa-clock-o"></i> {{ isset($noteForm->note_last) ? 'последний '.\Carbon\Carbon::parse($noteForm->note_last)->format('в H:i d.m.Y') : '' }}</small>
+                                                        </h4>
+                                                    </a>
+                                                </li> <!-- end message -->
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="{{ Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes' }}">Посмотреть все отзывы и сообщения</a></li>
+                                </ul>
+                            </li>
+                            <!-- Notifications -->
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">{{ $notes['sumNotif']>0 ? $notes['sumNotif'] : '' }}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header"><strong>{{ $notes['sumNotif']>0 ? $notes['sumNotif'] : 'нет' }} новых оповещений</strong></li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            @if (Auth::user()->isAdmin())
+                                                @if ($notes['newUsers']>0)
+                                                    <li>
+                                                        <a href="##"><i class="fa fa-bookmark text-gray"></i>
+                                                           Новые пользователи - <span class="badge">{{ $notes['newUsers'] }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if ($notes['newProjects']>0)
+                                                    <li>
+                                                        <a href="##"><i class="fa fa-gears text-gray"></i>
+                                                           Новые проекты - <span class="badge">{{ $notes['newProjects'] }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if ($notes['newPersonal']>0)
+                                                    <li>
+                                                        <a href="##"><i class="fa fa-users text-gray"></i>
+                                                           Новые сотрудники - <span class="badge">{{ $notes['newPersonal'] }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endif
+                                            @foreach ($notes['notif'] as $notif)
+                                                <li>
+                                                    <a href="##"><i class="fa fa-exchange text-gray"></i>
+                                                       {{$notif->name}} - <span class="badge">{{ $notif->notes_count }}</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="{{ Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes' }}">Посмотреть все оповещения</a></li>
+                                </ul>
+                            </li>
+                        
+                            <!-- User Account -->
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="{{ isset(Auth::user()->logo) ? Storage::url(Auth::user()->logo) : '/img/noname.png' }}" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                  <!-- User image -->
+                                  <li class="user-header">
+                                    <img src="{{ isset(Auth::user()->logo) ? Storage::url(Auth::user()->logo) : '/img/noname.png' }}" class="img-circle" alt="User Image">
+                                    <p>
+                                      {{ Auth::user()->name }}<br>{{ Auth::user()->contact_person}}
+                                      <small>{{ isset(Auth::user()->created_at) ? 'зарегистрирован ' . Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y') : '' }}</small>
+                                    </p>
+                                  </li>
+                                  <!-- Menu Body -->
+                                  <li class="user-body">
+                                    <div class="row">
+                                      <div class="col-xs-4 text-center">
+                                        <a href="/userProjects"><small class="label bg-blue">Проекты</small></a>
+                                      </div>
+                                      <div class="col-xs-4 text-center">
+                                        <a href="/userPersonal"><small class="label bg-green">Спец-ты</small></a>
+                                      </div>
+                                      <div class="col-xs-4 text-center">
+                                        <a href="/userNotes"><small class="label bg-red">Сообщен.</small></a>
+                                      </div>
+                                    </div>
+                                    <!-- /.row -->
+                                  </li>
+                                  <!-- Menu Footer-->
+                                  <li class="user-footer">
+                                    <div class="pull-left">
+                                      <a href="/users/editprofile" class="btn btn-default btn-flat">Профиль</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <!--a href="#" class="btn btn-default btn-flat">Выход</a-->
+                                        @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
+                                            <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" class="btn btn-default btn-flat">
+                                            {{ trans('adminlte::adminlte.log_out') }}
+                                            </a>
+                                        @else
+                                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">
+                                            {{ trans('adminlte::adminlte.log_out') }}</a>
+                                            <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
+                                            @if(config('adminlte.logout_method'))
+                                                {{ method_field(config('adminlte.logout_method')) }}
+                                            @endif
+                                            {{ csrf_field() }}
+                                            </form>
                                         @endif
-                                        @foreach ($notes['notif'] as $notif)
-                                            <li>
-                                                <a href="##">
-                                                   {{$notif->name}} - <strong>{{ $notif->notes_count }}</strong>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="{{ Auth::user()->isAdmin() ? '/admin/notes' : '/userNotes' }}">Все оповещения</a></li>
-                            </ul>
-                        </li>
-                    
-                        <!-- User Account -->
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ isset(Auth::user()->logo) ? Storage::url(Auth::user()->logo) : '/img/noname.png' }}" class="user-image" alt="User Image">
-                                <span class="hidden-xs">{{ Auth::user()->name }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                              <!-- User image -->
-                              <li class="user-header">
-                                <img src="{{ isset(Auth::user()->logo) ? Storage::url(Auth::user()->logo) : '/img/noname.png' }}" class="img-circle" alt="User Image">
-                                <p>
-                                  {{ Auth::user()->name }}<br>{{ Auth::user()->contact_person}}
-                                  <small>{{ isset(Auth::user()->created_at) ? 'зарегистрирован ' . Carbon\Carbon::parse(Auth::user()->created_at)->format('d-m-Y') : '' }}</small>
-                                </p>
-                              </li>
-                              <!-- Menu Body -->
-                              <li class="user-body">
-                                <div class="row">
-                                  <div class="col-xs-4 text-center">
-                                    <a href="#"><small class="label bg-blue">Проекты</small></a>
-                                  </div>
-                                  <div class="col-xs-4 text-center">
-                                    <a href="/userPersonal"><small class="label bg-green">Спец-ты</small></a>
-                                  </div>
-                                  <div class="col-xs-4 text-center">
-                                    <a href="#"><small class="label bg-red">Сообщен.</small></a>
-                                  </div>
-                                </div>
-                                <!-- /.row -->
-                              </li>
-                              <!-- Menu Footer-->
-                              <li class="user-footer">
-                                <div class="pull-left">
-                                  <a href="/users/editprofile" class="btn btn-default btn-flat">Профиль</a>
-                                </div>
-                                <div class="pull-right">
-                                    <!--a href="#" class="btn btn-default btn-flat">Выход</a-->
-                                    @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
-                                        <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" class="btn btn-default btn-flat">
-                                        {{ trans('adminlte::adminlte.log_out') }}
-                                        </a>
-                                    @else
-                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">
-                                        {{ trans('adminlte::adminlte.log_out') }}</a>
-                                        <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
-                                        @if(config('adminlte.logout_method'))
-                                            {{ method_field(config('adminlte.logout_method')) }}
-                                        @endif
-                                        {{ csrf_field() }}
-                                        </form>
-                                    @endif
-                                </div>
-                              </li>
-                            </ul>
-                        </li>
+                                    </div>
+                                  </li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </div>
                 @if(config('adminlte.layout') == 'top-nav')
@@ -237,17 +247,17 @@
 
                 <div class="col-md-3">
                     <ul class="list-unstyled">
-                        <li><a href="#">О нас</a></li>
+                        <li><a href="/about">О нас</a></li>
                         <li><a href="#">Тарифы</a></li>
-                        <li><a href="#">Отзывы</a></li>
+                        <li><a href="/comments">Отзывы</a></li>
                     </ul>
                 </div>
                 <!-- ./col -->
                 <div class="col-md-3">
                     <ul class="list-unstyled">
                         <li><a href="/home">Как это работает</a></li>
-                        <li><a href="#">Наши контакты</a></li>
-                        <li><a href="#">Политика конфеденциальности</a></li>
+                        <li><a href="/contacts">Наши контакты</a></li>
+                        <li><a href="/confidential">Политика конфеденциальности</a></li>
                     </ul>
                 </div>
                 <!-- ./col -->

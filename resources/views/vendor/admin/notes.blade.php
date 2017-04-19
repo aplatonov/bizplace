@@ -89,7 +89,7 @@
                                 @endif
                             </td>
                             <td class="text-center">{!! isset($note->from) ? '<a href=\'/users/edit/'.$note->from->id.'\'>': '' !!}
-                                {{ isset($note->from) ? $note->from->name : 'null' }}
+                                {{ isset($note->from) ? $note->from->name : $note->link }}
                                 {!! isset($note->from) ? '</a>': '' !!}</td>
                             <td class="text-center">{!! isset($note->to) ? '<a href=\'/users/edit/'.$note->to->id.'\'>': '' !!}
                                 {{ isset($note->to) ? $note->to->name : null }}</td>

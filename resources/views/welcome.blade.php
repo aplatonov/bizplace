@@ -1,73 +1,108 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'BizPlace')
+
+@section('content_header')
+    <h1>Страница приветствия</h1>
+    <ol class="breadcrumb">
+        <li><a href="/home"><i class="fa fa-dashboard"></i> Главное меню</a></li>
+        <li class="active"> Страница приветствия</li>
+    </ol>
+@stop
 
 @section('content')
-<div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default panel-primary">
-                <div class="panel-heading">О нас</div>
 
-                <div class="panel-body">
-                    <p>Для входа в систему необходимо зарегистрироваться.<br><br>
-                    Вторая версия систем. Реализовано: <br>
-                    <span class="badge">1</span> Регистрация пользователей, редактирование профиля<br>
-                    <span class="badge">2</span> Управление администратором списком пользователей<br>
-                    <span class="badge">3</span> Управление специалистами (список, карточка, редактирование, поиск, сортировка)<br>
-                    <span class="badge">4</span> Управление проектами (список, карточка, редактирование, поиск, сортировка)<br>
-                    <span class="badge">5</span> Мои специалисты/Мои проекты<br>
-                    <hr>
-                    <span class="badge">6</span> В профиль пользователя (организации) добавлены технологии<br>
-                    <span class="badge">7</span> Страница "Компании"<br>
-                    <span class="badge">8</span> Отзывы на компанию и в целом на систему<br>
-                    <span class="badge">9</span> Управление отзывами в админке<br>
-                    <span class="badge">10</span> Создание/Удаление/Редактирование справочника "Направления"<br>
-                    <hr>
-                    <span class="badge">11</span> Создание/Удаление/Редактирование справочника "Технологии"<br>
-                    <span class="badge">12</span> Создание/Удаление/Редактирование справочника "Категории"<br>
-                    <span class="badge">13</span> Создание/Удаление/Редактирование справочника "Категории оповещений"<br>
-                    <span class="badge">14</span> Администрирование "Оповещений" в админке<br>
-                    <span class="badge">15</span> Форма обратной свзяи, шаблоны страниц "О нас", "Конфиденциальность"<br>
-                    <hr>
-                    Логин/пароль администратора: <span class="label label-primary">admin/admin</span><br>
-                    Логин/пароль пользователя: <span class="label label-info">user/user</span><br>
-                    </p>
+        @if(Session::has('message'))
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{Session::get('message')}}
                 </div>
             </div>
+        @endif
+
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Горячие предложения</h3>
+                </div> <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                          <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                          <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src="http://placehold.it/900x510/39CCCC/ffffff&text=BizPlace!" alt="First slide">
+                                <div class="carousel-caption">
+                                    Первый слайд
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="http://placehold.it/900x510/3c8dbc/ffffff&text=Размещайте проекты!" alt="Second slide">
+                                <div class="carousel-caption">
+                                    Второй слайд
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="http://placehold.it/900x510/f39c12/ffffff&text=Берите заказы!" alt="Third slide">
+                                <div class="carousel-caption">
+                                    Третий слайд
+                                </div>
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="fa fa-angle-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="fa fa-angle-right"></span>
+                        </a>
+                    </div>
+                </div>
+            <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
         </div>
+        <!-- /.col -->
 
-        <footer class="main-footer">
-            <div class="row">
-                <div class="col-md-3">
-                  <img class="img-responsive" src="/img/logo_full.png" alt="BizPlace logo">
-                  <!-- /.box -->
-                </div>
-
-                <div class="col-md-3">
-                    <ul class="list-unstyled">
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Тарифы</a></li>
-                        <li><a href="#">Отзывы</a></li>
-                    </ul>
-                </div>
-                <!-- ./col -->
-                <div class="col-md-3">
-                    <ul class="list-unstyled">
-                        <li><a href="/home">Как это работает</a></li>
-                        <li><a href="#">Наши контакты</a></li>
-                        <li><a href="#">Политика конфеденциальности</a></li>
-                    </ul>
-                </div>
-                <!-- ./col -->
-                <div class="col-md-3">
-                    <ul class="list-unstyled">
-                        <li><button type="button" class="btn btn-block btn-default btn-xs">Связаться с нами</button></li>
-                        <li>&nbsp;</li>
-                        <li><button type="button" class="btn btn-block btn-default btn-xs">Позвоните нам</button></li>
-                    </ul>
-                </div>
-                <!-- ./col -->
+        <div class="col-md-6">
+			<div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Краткие правила</h3>
             </div>
-        </footer>
-    </div>
-</div>
-@endsection
+            <!-- /.box-header -->
+            <div class="box-body">
+              <dl class="dl-horizontal">
+                <dt>Без регистрации</dt>
+                <dd>Доступна общая информация о системе</dd>
+                <dd>Вы можете ознакомится с документацией</dd>
+                <dt>&nbsp;</dt>
+                <dd>&nbsp;</dd>
+                <dd><strong>Для входа в систему необходимо зарегистрироваться</strong></dd>
+                <dt>По умолчанию</dt>
+                <dd>Вновь зарегистрированный пользователь должен быть подтвержден администратором</dd>
+                <dd>До этого доступен просмотр списка проектов, компаний и специалистов и написание сообщений администратору</dd>
+                <dd>Подробно заполните свой профиль</dd>
+                <dt>После активации</dt>
+                <dd>Вы сможете добавлять проекты и специалистов, получать о них информацию</dd>
+                <dd>Получать и писать отзывы, получать оповещения</dd>
+                <dt>&nbsp;</dt>
+                <dd>&nbsp;</dd>
+                <dd>На время тестирования системы</dd>
+                <dt>Вход администратора</dt>
+                <dd><span class="label label-primary">admin/admin</span></dd>
+                <dt>Вход пользователя</dt>
+                <dd><span class="label label-primary">user/user</span></dd>
+              </dl>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+@stop

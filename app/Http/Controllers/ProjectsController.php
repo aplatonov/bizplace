@@ -55,6 +55,7 @@ class ProjectsController extends Controller
 
     public function addProject(Request $request)
     {
+        $this->authorize('user-valid');
         $form = $request->all();
         $form['owner_id'] = Auth::user()->id;
 
@@ -83,6 +84,7 @@ class ProjectsController extends Controller
      */
     public function storeProject(Request $request)
     {
+        $this->authorize('user-valid');
         $form = $request->all();
         if ($form['isUpdate'] == 1) {
             $project = Projects::find($form['project_id']);
@@ -170,6 +172,7 @@ class ProjectsController extends Controller
      */
     public function showProjects(Request $request)
     {
+        $this->authorize('user-unconfirmed');
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
         $page_appends = null;
@@ -231,7 +234,8 @@ class ProjectsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
+        $this->authorize('user-valid');
         $project = Projects::findOrFail($id);
         $project['technologies'] = $project->projectTechnologies->keyBy('id')->keys()->toArray();
         $technologies = Technology::where('active', true)->get();

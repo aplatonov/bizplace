@@ -198,16 +198,19 @@ return [
             'text' => 'Проекты',
             'url'  => '/projects',
             'icon' => 'gears',
+            'can'  => 'user-unconfirmed',
         ],
         [
             'text' => 'Компании',
             'url'  => '/companies',
             'icon' => 'bookmark',
+            'can'  => 'user-unconfirmed',
         ],
         [
             'text' => 'Специалисты',
             'url'  => '/personal',
             'icon' => 'users',
+            'can'  => 'user-unconfirmed',
         ],
         [
             'text' => 'Отзывы',

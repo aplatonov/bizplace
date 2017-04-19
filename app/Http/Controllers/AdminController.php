@@ -45,6 +45,7 @@ class AdminController extends Controller
      */
     public function showUsers(Request $request)
     {
+        $this->authorize('admin-control');
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
         $page_appends = null;
@@ -175,6 +176,7 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin-control');
         $user = Users::find($id);
 
         return view('userEdit', ['user'=>$user]);        

@@ -24,6 +24,7 @@ class NoteCategoriesController extends Controller
      */
     public function index()
     {
+        $this->authorize('admin-control');
         $notecategories =  NotesCategory::all();
         return view('notecategories.index',['notecategories' => $notecategories]);
     }
@@ -35,6 +36,7 @@ class NoteCategoriesController extends Controller
      */
     public function create()
     {
+        $this->authorize('admin-control');
         return view('notecategories.create');
     }
 
@@ -46,6 +48,7 @@ class NoteCategoriesController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('admin-control');
         $this->validate($request,[
             'name'=> 'required|max:30',
         ]);
@@ -81,6 +84,7 @@ class NoteCategoriesController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin-control');
         $notecategory = NotesCategory::findOrFail($id);
         return view('notecategories.edit',compact('notecategory'));
     }
@@ -94,6 +98,7 @@ class NoteCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('admin-control');
         $this->validate($request,[
             'name'=> 'required|max:30',
         ]);
@@ -121,6 +126,7 @@ class NoteCategoriesController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin-control');
         $notecategory = NotesCategory::findOrFail($id);
         try {
             $notecategory->delete();

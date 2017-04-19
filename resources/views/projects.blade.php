@@ -6,7 +6,7 @@
 <h1>Проекты <small>{{ isset($data['title']) ? $data['title'] : ''}}</small></h1>
 <ol class="breadcrumb">
     <li><a href="/home"><i class="fa fa-dashboard"></i> Главное меню</a></li>
-    <li><a href="#"> BizPlace</a></li>
+    <li><a href="#"> {{ isset($data['title']) ? ' Личный кабинет' : 'BizPlace'}}</a></li>
     <li class="active"> Проекты</li>
 </ol>
 @stop

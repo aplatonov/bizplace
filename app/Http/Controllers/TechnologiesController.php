@@ -24,6 +24,7 @@ class TechnologiesController extends Controller
      */
     public function index()
     {
+        $this->authorize('admin-control');
         $technologies =  Technology::all();
         return view('technologies.index',['technologies' => $technologies]);
     }
@@ -35,6 +36,7 @@ class TechnologiesController extends Controller
      */
     public function create()
     {
+        $this->authorize('admin-control');
         return view('technologies.create');
     }
 
@@ -46,6 +48,7 @@ class TechnologiesController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('admin-control');
         $this->validate($request,[
             'name'=> 'required|max:30',
         ]);
@@ -81,6 +84,7 @@ class TechnologiesController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin-control');
         $technology = Technology::findOrFail($id);
         return view('technologies.edit',compact('technology'));
     }
@@ -94,6 +98,7 @@ class TechnologiesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('admin-control');
         $this->validate($request,[
             'name'=> 'required|max:30',
         ]);
@@ -119,6 +124,7 @@ class TechnologiesController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin-control');
         $technology = Technology::findOrFail($id);
         try {
             $technology->delete();

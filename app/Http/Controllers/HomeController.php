@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -57,7 +57,7 @@ class HomeController extends Controller
             'description.min' => 'Напишите подробнее',
         ]); 
         //$this->feedbackNote($note_name, $description, $from_user_id, $link)
-        $from_user_id = Auth::guest() ? null: Auth::user()->id;
+        $from_user_id = Auth::guest() ? null : Auth::user()->id;
         if ($this->feedbackNote('Feedback от '.$form['person_name'], 
                                 $form['description'], 
                                 $from_user_id, 

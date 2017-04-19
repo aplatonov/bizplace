@@ -26,11 +26,12 @@ class CommentsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function showComments(Request $request)
     {
+        $this->authorize('admin-control');
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
         $page_appends = null;
@@ -67,6 +68,7 @@ class CommentsController extends Controller
 
 	public function blockComment(Request $request)
     {
+        $this->authorize('admin-control');
     	$comment = Comments::findOrFail($request->input('comment_id'));
         if (Auth::user()->isAdmin()) {
             $comment->active = $request->input('action');
@@ -80,6 +82,7 @@ class CommentsController extends Controller
 
     public function destroyComment($id)
     {
+        $this->authorize('admin-control');
         if (Auth::user()->isAdmin()) {
 	        $comment = Comments::findOrFail($id);
             $commentName = $comment->note_name;
@@ -96,6 +99,7 @@ class CommentsController extends Controller
 
     public function addComment()
     {
+        $this->authorize('user-unconfirmed');
         $companies = Users::where('confirmed', true)
             ->get();
 
@@ -109,6 +113,7 @@ class CommentsController extends Controller
 
     public function storeComment(Request $request)
     {
+        $this->authorize('user-unconfirmed');
         $form = $request->all();
 
         $this->validate($request, [
@@ -143,6 +148,7 @@ class CommentsController extends Controller
 
     public function edit($id)
     {   
+        $this->authorize('admin-control');
         $comment = Comments::findOrFail($id);
         $companies = Users::where('valid', true)
             ->get();

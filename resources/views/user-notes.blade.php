@@ -6,7 +6,7 @@
 <h1>Оповещения</small></h1>
 <ol class="breadcrumb">
     <li><a href="/home"><i class="fa fa-dashboard"></i> Главное меню</a></li>
-    <li><a href="#"> Администратор</a></li>
+    <li><a href="#"> Личный кабинет</a></li>
     <li class="active"> Оповещения</li>
 </ol>
 @stop

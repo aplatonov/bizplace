@@ -24,6 +24,7 @@ class SpecialitiesController extends Controller
      */
     public function index()
     {
+        $this->authorize('admin-control');
         $specialities =  Speciality::all();
         return view('specialities.index',['specialities' => $specialities]);
     }
@@ -35,6 +36,7 @@ class SpecialitiesController extends Controller
      */
     public function create()
     {
+        $this->authorize('admin-control');
         return view('specialities.create');
     }
 
@@ -46,6 +48,7 @@ class SpecialitiesController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('admin-control');
         $this->validate($request,[
             'name'=> 'required|max:60',
         ]);
@@ -81,6 +84,7 @@ class SpecialitiesController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin-control');
         $speciality = Speciality::findOrFail($id);
         return view('specialities.edit',compact('speciality'));
     }
@@ -94,6 +98,7 @@ class SpecialitiesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('admin-control');
         $this->validate($request,[
             'name'=> 'required|max:60',
         ]);
@@ -119,6 +124,7 @@ class SpecialitiesController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin-control');
         $speciality = Speciality::findOrFail($id);
         try {
             $speciality->delete();

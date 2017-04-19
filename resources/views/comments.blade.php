@@ -21,16 +21,19 @@
             </div>
         </div>
     @endif
-    <div class="col-md-12">
-        <div class="box box-comments">
-            <div class="box-header">
-                <form method="GET" action="{{ url('/comments/add') }}" id="addCommentForm" style="display:none;">
-                    <input type="hidden" name="fromPage" value="{{ Route::current()->getName() }}" id="fromPage">
-                </form>
-                <button class="btn btn-primary btn-sm pull-left" type="submit" onclick = "document.getElementById('addCommentForm').submit();"><i class="fa fa-user-plus pull-left"></i>Добавить отзыв</button>
+    @can('user-unconfirmed');
+        <div class="col-md-12">
+            <div class="box box-comments">
+                <div class="box-header">
+                    <form method="GET" action="{{ url('/comments/add') }}" id="addCommentForm" style="display:none;">
+                        <input type="hidden" name="fromPage" value="{{ Route::current()->getName() }}" id="fromPage">
+                    </form>
+                    
+                    <button class="btn btn-primary btn-sm pull-left" type="submit" onclick = "document.getElementById('addCommentForm').submit();"><i class="fa fa-user-plus pull-left"></i>Добавить отзыв</button>
+                </div>
             </div>
         </div>
-    </div>
+    @endcan
     @foreach ($data['comments'] as $comment)
         <div class="col-xs-4">
             <div class="box box-primary">

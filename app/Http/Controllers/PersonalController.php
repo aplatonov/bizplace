@@ -55,6 +55,7 @@ class PersonalController extends Controller
 
     public function addPerson(Request $request)
     {
+        $this->authorize('user-valid');
         session(['fromPage' => \URL::previous()]);
         $form = $request->all();
         $form['user_id'] = Auth::user()->id;
@@ -80,6 +81,7 @@ class PersonalController extends Controller
      */
     public function storePerson(Request $request)
     {
+        $this->authorize('user-valid');
         $form = $request->all();
         //dd($form);
         if ($form['isUpdate'] == 1) {
@@ -168,6 +170,7 @@ class PersonalController extends Controller
      */
     public function showPersonal(Request $request)
     {
+        $this->authorize('user-unconfirmed');
         $order = $request->get('order'); 
         $dir = $request->get('dir'); 
         $page_appends = null;
@@ -223,7 +226,8 @@ class PersonalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
+        $this->authorize('user-valid');
         $person = Personal::findOrFail($id);
         session(['fromPage' => \URL::previous()]);
 
@@ -251,6 +255,7 @@ class PersonalController extends Controller
      */
     public function destroyPerson($id)
     {
+        $this->authorize('user-valid');
         $person = Personal::findOrFail($id);
         session(['fromPage' => \URL::previous()]);
         if (Auth::user()->isAdmin() || Auth::user()->id == $person->user_id) {     

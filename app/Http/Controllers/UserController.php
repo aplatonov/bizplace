@@ -41,6 +41,7 @@ class UserController extends Controller
 
     public function showCompanies(Request $request)
     {
+        $this->authorize('user-unconfirmed');
         $searchText = $request->get('searchText');
 
         $companies = Users::where('valid', 1)
@@ -114,6 +115,7 @@ class UserController extends Controller
      */
     public function edit($user_id = null, Request $request)
     {
+        $this->authorize('user-unconfirmed');
         //dd ($user_id);
         if (isset($user_id)) {
             $user = Users::findOrFail($user_id);
@@ -138,6 +140,7 @@ class UserController extends Controller
      */
     public function update($user_id, Request $request)
     {
+        $this->authorize('user-unconfirmed');
         $user = Users::find($user_id);
         $userlogin = $user->login;
         $oldPortfolio = $user->portfolio;
