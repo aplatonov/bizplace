@@ -36,21 +36,21 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img src="http://placehold.it/900x510/39CCCC/ffffff&text=BizPlace!" alt="First slide">
+                                <img src="http://placehold.it/900x300/39CCCC/ffffff&text=BizPlace!" alt="First slide">
                                 <div class="carousel-caption">
-                                    Первый слайд
+                                    
                                 </div>
                             </div>
                             <div class="item">
-                                <img src="http://placehold.it/900x510/3c8dbc/ffffff&text=Размещайте проекты!" alt="Second slide">
+                                <img src="http://placehold.it/900x300/3c8dbc/ffffff&text=Размещайте проекты!" alt="Second slide">
                                 <div class="carousel-caption">
-                                    Второй слайд
+                                    
                                 </div>
                             </div>
                             <div class="item">
-                                <img src="http://placehold.it/900x510/f39c12/ffffff&text=Берите заказы!" alt="Third slide">
+                                <img src="http://placehold.it/900x300/f39c12/ffffff&text=Берите заказы!" alt="Third slide">
                                 <div class="carousel-caption">
-                                    Третий слайд
+                                    
                                 </div>
                             </div>
                         </div>
@@ -61,48 +61,121 @@
                             <span class="fa fa-angle-right"></span>
                         </a>
                     </div>
-                </div>
-            <!-- /.box-body -->
+                </div> <!-- /.box-body -->
+            </div> <!-- /.box -->
+
+
+            <!-- DIRECT CHAT PRIMARY -->
+            <div class="box box-primary direct-chat direct-chat-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Последние события</h3>
+
+                    <div class="box-tools pull-right">
+                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue"></span>
+                    </div>
+                </div>  <!-- /.box-header -->
+                <div class="box-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages">
+                        @foreach($notes['events'] as $event)
+                            <div class="direct-chat-msg {{ $event->position==1 ? 'right' : ''}}">
+                                <div class="direct-chat-info clearfix">
+                                    <span class="direct-chat-name {{ $event->position==1 ? 'pull-right' : 'pull-left'}}">{{ isset($event->user_name) ? $event->user_name : 'Гость' }}</span>
+                                    <span class="direct-chat-timestamp {{ $event->position==1 ? 'pull-left' : 'pull-right'}}">{{ \Carbon\Carbon::parse($event->created_at)->format('d.m.Y H:i') }}</span>
+                                </div> <!-- /.direct-chat-info -->
+                                <img class="direct-chat-img" src="{{ isset($event->logo) ? Storage::url($event->logo) : '/img/noname.png' }}" alt="User Logo"><!-- /.direct-chat-img -->
+                                <div class="direct-chat-text">
+                                    {{ $event->title . ' ' . str_limit($event->name, 30) }}
+                                </div>  <!-- /.direct-chat-text -->
+                            </div>
+                        @endforeach                        
+                    </div> <!--/.direct-chat-messages-->
+                </div> <!-- /.box-body -->
             </div>
-            <!-- /.box -->
-        </div>
-        <!-- /.col -->
+
+            
+        </div> <!-- /.left col -->
 
         <div class="col-md-6">
-			<div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Краткие правила</h3>
+
+            <div class="row">
+                <div class="col-lg-6 col-xs-12">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <p>
+                                <strong>Проектов</strong> 
+                            </p>
+                            <h3>{{ $notes['allProjects'] }}</h3>
+                            <p>
+                                <small>Ваших проектов: <strong>{{ $notes['userProjects'] }}</strong></small>
+                            </p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-gears"></i>
+                        </div>
+                        @can('user-valid')
+                            <a href="/projects/add" class="small-box-footer">
+                                Добавить проект <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @endcan
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xs-12">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <p>
+                                <strong>Сотрудников</strong>
+                            </p>
+                            <h3>{{ $notes['allPersonal'] }}</h3>
+                            <p>
+                                <small>Ваших сотрудников: <strong>{{ $notes['userPersonal'] }}</strong></small>
+                            </p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        @can('user-valid')
+                            <a href="/personal/add" class="small-box-footer">
+                                Добавить сотрудника <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        @endcan
+                    </div>
+                </div>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <dl class="dl-horizontal">
-                <dt>Без регистрации</dt>
-                <dd>Доступна общая информация о системе</dd>
-                <dd>Вы можете ознакомится с документацией</dd>
-                <dt>&nbsp;</dt>
-                <dd>&nbsp;</dd>
-                <dd><strong>Для входа в систему необходимо зарегистрироваться</strong></dd>
-                <dt>По умолчанию</dt>
-                <dd>Вновь зарегистрированный пользователь должен быть подтвержден администратором</dd>
-                <dd>До этого доступен просмотр списка проектов, компаний и специалистов и написание сообщений администратору</dd>
-                <dd>Подробно заполните свой профиль</dd>
-                <dt>После активации</dt>
-                <dd>Вы сможете добавлять проекты и специалистов, получать о них информацию</dd>
-                <dd>Получать и писать отзывы, получать оповещения</dd>
-                <dt>&nbsp;</dt>
-                <dd>&nbsp;</dd>
-                <dd>На время тестирования системы</dd>
-                <dt>Вход администратора</dt>
-                <dd><span class="label label-primary">admin/admin</span></dd>
-                <dt>Вход пользователя</dt>
-                <dd><span class="label label-primary">user/user</span></dd>
-              </dl>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
+
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Краткие правила</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                    <dt>Без регистрации</dt>
+                    <dd>Доступна общая информация о системе</dd>
+                    <dd>Вы можете ознакомиться с документацией</dd>
+                    <dt>&nbsp;</dt>
+                    <dd>&nbsp;</dd>
+                    <dd><strong>Для входа в систему необходимо зарегистрироваться</strong></dd>
+                    <dt>По умолчанию</dt>
+                    <dd>Вновь зарегистрированный пользователь должен быть подтвержден администратором</dd>
+                    <dd>До этого доступен просмотр списка проектов, компаний и специалистов и написание сообщений администратору</dd>
+                    <dd>Подробно заполните свой профиль</dd>
+                    <dt>После активации</dt>
+                    <dd>Вы сможете добавлять проекты и специалистов, получать о них информацию</dd>
+                    <dd>Получать и писать отзывы, получать оповещения</dd>
+                    <dt>&nbsp;</dt>
+                    <dd>&nbsp;</dd>
+                    <dd>На время тестирования системы</dd>
+                    <dt>Вход администратора</dt>
+                    <dd><span class="label label-primary">admin/admin</span></dd>
+                    <dt>Вход пользователя</dt>
+                    <dd><span class="label label-primary">user/user</span></dd>
+                    </dl>
+                </div> <!-- /.box-body -->
+            </div> <!-- /.box -->
+
+
+
+        </div> <!-- /.right col -->
+      </div> <!-- /.row -->
 @stop

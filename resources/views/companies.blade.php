@@ -6,6 +6,7 @@
 <h1>Компании</small></h1>
 <ol class="breadcrumb">
     <li><a href="/home"><i class="fa fa-dashboard"></i> Главное меню</a></li>
+    <li><a href="#"> BizPlace</a></li>
     <li class="active"> Компании</li>
 </ol>
 @stop

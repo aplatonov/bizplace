@@ -100,21 +100,21 @@
                                             @if (Auth::user()->isAdmin())
                                                 @if ($notes['newUsers']>0)
                                                     <li>
-                                                        <a href="##"><i class="fa fa-bookmark text-gray"></i>
+                                                        <a href="/admin/users"><i class="fa fa-bookmark text-gray"></i>
                                                            Новые пользователи - <span class="badge">{{ $notes['newUsers'] }}</span>
                                                         </a>
                                                     </li>
                                                 @endif
                                                 @if ($notes['newProjects']>0)
                                                     <li>
-                                                        <a href="##"><i class="fa fa-gears text-gray"></i>
+                                                        <a href="/projects"><i class="fa fa-gears text-gray"></i>
                                                            Новые проекты - <span class="badge">{{ $notes['newProjects'] }}</span>
                                                         </a>
                                                     </li>
                                                 @endif
                                                 @if ($notes['newPersonal']>0)
                                                     <li>
-                                                        <a href="##"><i class="fa fa-users text-gray"></i>
+                                                        <a href="/personal"><i class="fa fa-users text-gray"></i>
                                                            Новые сотрудники - <span class="badge">{{ $notes['newPersonal'] }}</span>
                                                         </a>
                                                     </li>

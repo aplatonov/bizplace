@@ -79,10 +79,63 @@ class ComposerServiceProvider extends ServiceProvider
                         ->get();
                     $notes['sumNotif'] = $notes['notif']->sum('notes_count') ;
                 }
+                //если прошла авторизация
+                $notes['userPersonal'] = DB::table('personal')
+                        ->where('user_id', Auth::user()->id)
+                        ->count();
+                $notes['userProjects'] = DB::table('projects')
+                        ->where('owner_id', Auth::user()->id)
+                        ->count();
             } else {
                 $notes['notif'] = [];
                 $notes['forms'] = [];
+                $notes['userPersonal'] = null;
+                $notes['userProjects'] = null;
             }
+            $notes['allPersonal'] = DB::table('personal')
+                        ->where('active', true)
+                        ->count();
+            $notes['allProjects'] = DB::table('projects')
+                        ->where('active', true)
+                        ->count();
+
+            $eventsProj = DB::table('projects')
+                        ->where('active', true)
+                        ->orderBy('created_at', 'desc')
+                        ->take(5)
+                        ->get(['owner_id as user_id', 'project_name as name', 'created_at', DB::raw("'добавил проект: ' as title")])
+                        ->toArray();
+            $eventsPers = DB::table('personal')
+                        ->where('active', true)
+                        ->orderBy('created_at', 'desc')
+                        ->take(5)
+                        ->get(['user_id', 'person_name as name', 'created_at', DB::raw("'добавил сотрудника: ' as title")])
+                        ->toArray();
+            $eventsUsers = DB::table('users')
+                        ->orderBy('created_at', 'desc')
+                        ->take(5)
+                        ->get(['id as user_id', 'name', 'created_at', DB::raw("'зарегистрировался в системе ' as title")])
+                        ->toArray();
+            $eventsComm = DB::table('notes')
+                        ->where('active', true)
+                        ->whereIn('note_category_id', [5, 6, 7])
+                        ->orderBy('created_at', 'desc')
+                        ->take(5)
+                        ->get(['from_user_id as user_id', 'description as name', 'created_at', DB::raw("'оставил заметку: ' as title")])
+                        ->toArray();
+            $res = array_merge($eventsProj, $eventsPers, $eventsUsers, $eventsComm); 
+            $res = array_values(array_sort($res, function ($value) {
+                return $value->created_at;
+            }));
+            $res = array_slice(array_reverse($res),0,10);
+            foreach ($res as &$value) {
+                $value->logo = \App\Users::find($value->user_id) ? \App\Users::find($value->user_id)->logo : null;
+                $value->user_name = \App\Users::find($value->user_id) ? \App\Users::find($value->user_id)->name : null;
+                $value->position = rand(0, 1);
+            }
+       
+            $notes['events'] = $res;
+
             $view->with(['notes' => $notes]);
         });
 

@@ -133,11 +133,11 @@ return [
     |
     */
 
-    'objects_on_page' => 4,
+    'objects_on_page' => 15,
 
-    'objects_on_page_admin' => 15,
+    'objects_on_page_admin' => 20,
 
-    'users_on_page_admin' => 3,
+    'users_on_page_admin' => 10,
 
     /*
     |--------------------------------------------------------------------------
