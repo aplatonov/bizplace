@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         if (Auth::user()->confirmed == 1 && Auth::user()->valid == 1) {
             $company = Users::findOrFail($request->input('company_id'));
-            $company_info = '<small>' . $company->contact_person . '<br>' . $company->phone . '<small>';
+            $company_info = '<small>' . $company->contact_person . '<br>' . $company->phone . '<br><a href="mailto:' . $company->email . '">'.$company->email.'</a><small>';
             $data = array( 'text' => 'success', 'company_info' => $company_info);
             $this->companyNote($request->input('company_id'), Auth::user()->id);
         } else {
@@ -153,7 +153,7 @@ class UserController extends Controller
             'contact_person' => 'required|min:2|max:80',
             'phone' => 'required|max:60',
             'pay_till' => 'date|nullable',
-            'www' => 'url|max:150|nullable',
+            'www' => 'max:150|nullable',
             'portfolio' => 'file|max:1000|mimes:pdf,doc,docx,rtf',
             'logo' => 'file|max:500|mimes:jpg,jpeg,png,gif'
         ]);

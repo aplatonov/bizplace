@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="col-xs-6 form-group{{ $errors->has('www') ? ' has-error' : '' }}">
                                     <label for="www">www</label>
-                                    <input id="www" type="text" class="form-control" name="www" value="{{ $user->www }}" placeholder="http://mysite.com">
+                                    <input id="www" type="text" class="form-control" name="www" value="{{ $user->www }}" placeholder="www.mysite.com">
                                     @if ($errors->has('www'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('www') }}</strong>

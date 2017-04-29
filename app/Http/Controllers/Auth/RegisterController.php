@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'name' => 'required|min:2|max:190',
             'contact_person' => 'required|min:2|max:80',
             'phone' => 'required|max:60',
-            'www' => 'url|max:150|nullable'
+            'www' => 'max:150|nullable'
         ]);
     }
 

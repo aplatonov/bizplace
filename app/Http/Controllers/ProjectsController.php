@@ -255,7 +255,7 @@ class ProjectsController extends Controller
     {
         if (Auth::user()->confirmed == 1 && Auth::user()->valid == 1) {
             $project = Projects::findOrFail($request->input('project_id'));
-            $project_info = '<small>' . $project->user->name . '<br>' . $project->user->contact_person . '<br>' . $project->user->phone . '<small>';
+            $project_info = '<small>' . $project->user->name . '<br>' . $project->user->contact_person . '<br>' . $project->user->phone . '<br><a href="mailto:' . $project->user->email . '">'.$project->user->email.'</a><small>';
             $data = array( 'text' => 'success', 'project_info' => $project_info);
             $this->projectNote($project->user->id, Auth::user()->id, $project->id);
         } else {

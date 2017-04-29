@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="box-body">
                                         <div class="form-group col-xs-12">
-                                            <label for="person_name">Название сотрудника</label>
+                                            <label for="person_name">Специалист</label>
                                             <input type="text" class="form-control" id="person_name" name="person_name" value="{{ $person->person_name }}">
                                             @if ($errors->has('person_name'))
                                                 <span class="text-danger">
@@ -102,11 +102,11 @@
                                             <p class="form-control-static">
                                                 @if ($person->resume)
                                                     Резюме <span class="label label-success">Есть!&nbsp;</span>
-                                                    <a href="{{ isset($person->resume) ? Storage::url($person->resume) : '' }}">Посмотреть</a>
-                                                    <br>
-                                                    <label for="resume">Заменить резюме <small>(pdf, rtf, doc)</small></label>
-                                                    <input id="resume" type="file" name="resume" value="{{ $person->resume }}" accept="*.pdf,*.rtf,*.doc">
+                                                        <a href="{{ isset($person->resume) ? Storage::url($person->resume) : '' }}">Посмотреть</a>
                                                 @endif
+                                                <br>
+                                                <label for="resume">Заменить резюме <small>(pdf, rtf, doc)</small></label>
+                                                <input id="resume" type="file" name="resume" value="{{ $person->resume }}" accept="*.pdf,*.rtf,*.doc">
                                             </p>
 
                                             @if ($errors->has('resume'))
@@ -139,8 +139,11 @@
                                         </div>
 
                                     </div>
+                                    <div class="box-footer clearfix">
+                                        <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
+                                        <button type="submit" class="btn btn-info pull-right">Сохранить изменения</button>
+                                    </div>
                                 </div>
-
                             </div>
                             <!-- right column -->
                             <div class="col-md-6">
@@ -159,10 +162,14 @@
                                             <table class="table table-hover table-striped table-condensed">
                                                 <tbody>
                                                     @forelse($technologies as $technology)
-                                                        <tr>
+                                                        @if($loop->iteration % 3 == 1)
+                                                            <tr>
+                                                        @endif
                                                             <td><input type="checkbox" id="technology{{$technology->id}}" name="technologies[{{$technology->id}}]" {{ in_array($technology->id, (array) $person->technologies) ? 'checked' : ''}} value="{{ $technology->id }}"></td>
                                                             <td class="mailbox-name">{{ $technology->name }}</td>
-                                                        </tr>
+                                                        @if($loop->iteration % 3 == 0)
+                                                            <tr>
+                                                        @endif
                                                     @empty
                                                         <tr>
                                                             <td span="4">Не внесены технологии</td>
@@ -178,10 +185,6 @@
                             <!-- right column END -->
                         </div>
                     </div><!-- /.box-body -->
-                    <div class="box-footer clearfix">
-                        <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
-                        <button type="submit" class="btn btn-info pull-right">Сохранить изменения</button>
-                    </div>
                 </form>
             </div><!-- /.box -->
         </div>

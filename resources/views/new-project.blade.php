@@ -131,6 +131,10 @@
                                         </div>
 
                                     </div>
+                                    <div class="box-footer clearfix">
+                                        <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
+                                        <button type="submit" class="btn btn-info pull-right">Сохранить проект</button>
+                                    </div>
                                 </div>
 
                             </div>
@@ -151,10 +155,14 @@
                                             <table class="table table-hover table-striped table-condensed">
                                                 <tbody>
                                                     @forelse($technologies as $technology)
-                                                        <tr>
+                                                        @if($loop->iteration % 3 == 1)
+                                                            <tr>
+                                                        @endif
                                                             <td><input type="checkbox" id="technology{{$technology->id}}" name="technologies[{{$technology->id}}]" {{ in_array($technology->id, (array) old('technologies')) ? 'checked' : ''}} value="{{ $technology->id }}"></td>
                                                             <td class="mailbox-name">{{ $technology->name }}</td>
-                                                        </tr>
+                                                        @if($loop->iteration % 3 == 0)
+                                                            <tr>
+                                                        @endif
                                                     @empty
                                                         <tr>
                                                             <td span="4">Не внесены технологии</td>
@@ -170,10 +178,6 @@
                             <!-- right column END -->
                         </div>
                     </div><!-- /.box-body -->
-                    <div class="box-footer clearfix">
-                        <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
-                        <button type="submit" class="btn btn-info pull-right">Сохранить проект</button>
-                    </div>
                 </form>
             </div><!-- /.box -->
         </div>

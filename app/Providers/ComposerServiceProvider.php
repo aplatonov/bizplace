@@ -17,8 +17,27 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
-        View::composer(['*'], function($view)
+        View::composer(['home',
+                        'welcome',
+                        'projects',
+                        'new-project',
+                        'companies',
+                        'new-comment-main',
+                        'personal',
+                        'edit-person',
+                        'new-person',
+                        'comments',
+                        'contacts',
+                        'about',
+                        'confidential',
+                        'vendor.admin.*',
+                        'userEdit',
+                        'specialities.*',
+                        'technologies.*',
+                        'notecategories.*',
+                        'user-notes',
+                        'edit-project'
+            ], function($view)
         {
             if (Auth::check()) {
                 if (isset(Auth::user()->prev_login)) {

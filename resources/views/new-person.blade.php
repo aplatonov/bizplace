@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="box-body">
                                         <div class="form-group col-xs-12">
-                                            <label for="person_name">Название сотрудника</label>
+                                            <label for="person_name">Специалист</label>
                                             <input type="text" class="form-control" id="person_name" name="person_name" value="{{ old('person_name') }}">
                                             @if ($errors->has('person_name'))
                                                 <span class="text-danger">
@@ -121,7 +121,7 @@
                                             <div class="checkbox">
                                                 <br>
                                                 <label for="active">
-                                                    <input type="checkbox" id="active" name="active" {{ old('active') ? 'checked' : ''}} value="1">&nbsp;Показать на сайте</label>
+                                                    <input type="checkbox" id="active" name="active" {{ old('active') || empty(old('active')) ? 'checked' : '' }} value="1">&nbsp;Показать на сайте</label>
                                             </div>
                                             @if ($errors->has('active'))
                                                 <span class="text-danger">
@@ -129,7 +129,10 @@
                                                 </span>
                                             @endif
                                         </div>
-
+                                    </div>
+                                    <div class="box-footer clearfix">
+                                        <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
+                                        <button type="submit" class="btn btn-info pull-right">Сохранить сотрудника</button>
                                     </div>
                                 </div>
 
@@ -151,10 +154,14 @@
                                             <table class="table table-hover table-striped table-condensed">
                                                 <tbody>
                                                     @forelse($technologies as $technology)
-                                                        <tr>
+                                                        @if($loop->iteration % 3 == 1)
+                                                            <tr>
+                                                        @endif
                                                             <td><input type="checkbox" id="technology{{$technology->id}}" name="technologies[{{$technology->id}}]" {{ in_array($technology->id, (array) old('technologies')) ? 'checked' : ''}} value="{{ $technology->id }}"></td>
                                                             <td class="mailbox-name">{{ $technology->name }}</td>
-                                                        </tr>
+                                                        @if($loop->iteration % 3 == 0)
+                                                            </tr>
+                                                        @endif
                                                     @empty
                                                         <tr>
                                                             <td span="4">Не внесены технологии</td>
@@ -170,10 +177,6 @@
                             <!-- right column END -->
                         </div>
                     </div><!-- /.box-body -->
-                    <div class="box-footer clearfix">
-                        <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
-                        <button type="submit" class="btn btn-info pull-right">Сохранить сотрудника</button>
-                    </div>
                 </form>
             </div><!-- /.box -->
         </div>

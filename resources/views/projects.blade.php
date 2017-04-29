@@ -62,7 +62,12 @@
                     @foreach($data['projects'] as $project)
                         <tr> 
                             <td class="text-center">{{ $project->id }}</td>
-                            <td><a href="/projects/{{ $project->id }}/edit">{{ $project->project_name }}</a>
+                            <td>
+                                @if(Auth::user()->isAdmin() || Auth::user()->id == $project->owner_id)
+                                    <a href="/projects/{{ $project->id }}/edit">{{ $project->project_name }}</a>
+                                @else
+                                    {{ $project->project_name }}
+                                @endif
                                 <br>
                                 <small>{{ str_limit($project->description,60) }}</small>
                                 <br>

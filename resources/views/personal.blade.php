@@ -50,7 +50,8 @@
 
                     <tr>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Код</a>{!! $data['page_appends']['order'] == 'id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
-                        <th><a href="?page={{ $data['personal']->currentPage() }}&order=person_name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Название</a>{!! $data['page_appends']['order'] == 'person_name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
+                        <th><a href="?page={{ $data['personal']->currentPage() }}&order=person_name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специалист</a>{!! $data['page_appends']['order'] == 'person_name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
+                        <th>&nbsp;</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=experience&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Опыт, лет</a>{!! $data['page_appends']['order'] == 'experience' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=hour_rate&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Ставка, р/час</a>{!! $data['page_appends']['order'] == 'hour_rate' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=speciality_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специальность</a>{!! $data['page_appends']['order'] == 'speciality_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
@@ -62,14 +63,19 @@
                     @foreach($data['personal'] as $person)
                         <tr> 
                             <td class="text-center">{{ $person->id }}</td>
-                            <td><a href="/personal/{{ $person->id }}/edit">{{ $person->person_name }}</a>
+                            <td>
+                                @if(Auth::user()->isAdmin() || Auth::user()->id == $person->user_id)
+                                    <a href="/personal/{{ $person->id }}/edit">{{ $person->person_name }}</a>
+                                @else
+                                    {{ $person->person_name }}
+                                @endif
                                 <br>
                                 <small>{{ str_limit($person->description,60) }}</small>
                                 <br>
                                 <small>
                                     @forelse ($person->personTechnologies as $technology)
                                         <span class="label label-success">{{ $technology->name }}&nbsp;</span>
-                                        @if ($loop->index == 2)
+                                        @if ($loop->index == 5)
                                                 <span class="badge">всего: {{ $loop->count }}</span>
                                             @break;
                                         @endif
@@ -77,6 +83,11 @@
                                         
                                     @endforelse
                                 </small>
+                            </td>
+                            <td class="mailbox-attachment text-center">
+                                @if (!Auth::guest() && Auth::user()->confirmed == 1 && Auth::user()->valid == 1 && $person->resume)
+                                    <a href="{{ isset($person->resume) ? Storage::url($person->resume) : '' }}"><i class="fa fa-paperclip"></i></a>
+                                @endif
                             </td>
                             <td class="text-center">{{ $person->experience }}</td>
                             <td class="text-center">

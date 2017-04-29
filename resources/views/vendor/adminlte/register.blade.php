@@ -70,7 +70,7 @@
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('www') ? 'has-error' : '' }}">
                     <input type="text" name="www" class="form-control" value="{{ old('www') }}"
-                           placeholder="http://mysite.com">
+                           placeholder="www.mysite.com">
                     <span class="glyphicon glyphicon-link form-control-feedback"></span>
                     @if ($errors->has('www'))
                         <span class="help-block">
