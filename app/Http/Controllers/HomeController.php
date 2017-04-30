@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Settings;
 
 class HomeController extends Controller
 {
@@ -25,22 +26,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $settings = Settings::select('how_it_works_1', 'how_it_works_2', 'how_it_works_3')->first();
+        return view('home', ['settings'=>$settings]);
     }
 
     public function getContacts()
     {
-        return view('contacts');
+        $settings = Settings::select('how_contact_us', 'address', 'phone', 'email', 'regime')->first();
+        return view('contacts', ['settings'=>$settings]);
     }
 
     public function getAbout()
     {
-        return view('about');
+        $settings = Settings::select('about_us_1', 'about_us_2', 'about_us_3')->first();
+        return view('about', ['settings'=>$settings]);
     }
 
     public function getConfidential()
     {
-        return view('confidential');
+        $settings = Settings::select('konfedential')->first();
+        return view('confidential', ['settings'=>$settings]);
     }
 
     public function sendFeedback(Request $request)

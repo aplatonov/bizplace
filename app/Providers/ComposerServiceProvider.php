@@ -36,7 +36,8 @@ class ComposerServiceProvider extends ServiceProvider
                         'technologies.*',
                         'notecategories.*',
                         'user-notes',
-                        'edit-project'
+                        'edit-project',
+                        'skills.*'
             ], function($view)
         {
             if (Auth::check()) {

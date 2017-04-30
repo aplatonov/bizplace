@@ -13,7 +13,7 @@ class Personal extends Model
      * @var array
      */
     protected $fillable = [
-        'person_name', 'description', 'speciality_id', 'experience', 'images', 'resume', 'hour_rate', 'user_id', 'free_since', 'active',
+        'person_name', 'description', 'speciality_id', 'experience', 'images', 'resume', 'hour_rate', 'user_id', 'free_since', 'active', 'skill_id'
     ];
 
     public function speciality()
@@ -29,5 +29,10 @@ class Personal extends Model
     public function user()
     {
     	return $this->belongsTo('App\Users', 'user_id', 'id');
+    }
+
+    public function skill()
+    {
+        return $this->belongsTo('App\Skill', 'skill_id', 'id');
     }
 }

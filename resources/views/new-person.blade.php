@@ -78,6 +78,24 @@
                                                 </span>
                                             @endif
                                         </div>
+                                        <div class="form-group col-xs-12">
+                                            <label>Укажите уровень специалиста</label>
+                                            <select id="skill_id" name="skill_id" class="form-control" name="skill_id">
+                                                <option value="0">Выберите уровень</option>
+                                                @foreach($skills as $skill)
+                                                    @if ($skill->id == old('skill_id'))
+                                                        <option selected value="{{$skill->id}}">{{$skill->name}}</option>
+                                                    @else
+                                                        <option value="{{$skill->id}}">{{$skill->name}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has('skill_id'))
+                                                <span class="text-danger">
+                                                    <strong><small>{{ $errors->first('skill_id') }}</small></strong>
+                                                </span>
+                                            @endif
+                                        </div>
 
                                         <div class="form-group col-xs-6">
                                             <label for="experience">Опыт</label>

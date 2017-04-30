@@ -71,3 +71,8 @@ Route::get('/confidential','HomeController@getConfidential');
 Route::get('/admin/notes','NotesController@showNotes')->name('notes');
 Route::delete('/admin/notes/delete/{id}','NotesController@destroyNote');
 Route::get('/userNotes','NotesController@showUserNotes')->name('userNotes');
+
+Route::resource('/admin/skills','SkillsController');
+
+Route::get('/admin/settings','SettingsController@edit')->name('settings');
+Route::post('/admin/settings','SettingsController@store');

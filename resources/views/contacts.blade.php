@@ -29,9 +29,7 @@
             </div> <!-- /.box-header -->
 
             <div class="box-body">
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.
-                </p>
+                {!! nl2br($settings->how_contact_us) !!}
             </div> <!-- /.box-body -->
         </div> <!-- /.box -->
     </div>
@@ -43,13 +41,13 @@
 
             <div class="box-body">
                 <strong><i class="fa fa-home margin-r-5"></i>Адрес</strong>
-                <p class="text-muted">г. Ульяновск, Московское шоссе, 108, ТЦ Аквамолл</p>
+                <p class="text-muted">{{ $settings->address }}</p>
                 <strong><i class="fa fa-phone margin-r-5"></i>Телефон</strong>
-                <p class="text-muted">(8422) 279727</p>
+                <p class="text-muted">{{ $settings->phone }}</p>
                 <strong><i class="fa fa-envelope-o margin-r-5"></i>e-mail</strong>
-                <p class="text-muted">coral-ul@coralvolga.ru</p>
+                <p class="text-muted">{{ $settings->email }}</p>
                 <strong><i class="fa fa-clock-o margin-r-5"></i>Режим работы</strong>
-                <p class="text-muted">Понедельник-воскресенье: 10:00-21:00</p>
+                <p class="text-muted">{{ $settings->regime }}</p>
             </div> <!-- /.box-body -->
         </div> <!-- /.box -->
     </div>

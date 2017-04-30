@@ -126,6 +126,11 @@ return [
                     'url'  => '/admin/users',
                 ],
                 [
+                    'text' => 'Уровни',
+                    'icon' => 'bar-chart',
+                    'url'  => '/admin/skills',
+                ],
+                [
                     'text' => 'Направления/спец-ии',
                     'icon' => 'sitemap',
                     'url'  => '/admin/specialities',
@@ -149,6 +154,11 @@ return [
                     'text' => 'Управление отзывами',
                     'icon' => 'comments',
                     'url'  => '/admin/comments',
+                ],
+                [
+                    'text' => 'Настройки',
+                    'icon' => 'wrench',
+                    'url'  => '/admin/settings',
                 ],
             ],
         ],

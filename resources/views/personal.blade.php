@@ -32,11 +32,11 @@
                     <button class="btn btn-primary btn-sm pull-left" type="submit" onclick = "document.getElementById('addPersonalForm').submit();"><i class="fa fa-user-plus pull-left"></i>Добавить сотрудника</button>
                 @endcan
                 <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 250px;">
+                    <div class="input-group input-group-sm" style="width: 350px;">
                         <form method="GET" action="{{ Route::current()->getName() }}" id="searchForm" style="display:none;">
                             <input type="hidden" name="searchText" value="{{ Request::get('searchText') }}" id="searchText">
                         </form>
-                        <input class="form-control pull-right" name="searchTextVisible" id="searchTextVisible" placeholder="поиск по названию" type="text" value="{{ Request::get('searchText') }}">
+                        <input class="form-control pull-right" name="searchTextVisible" id="searchTextVisible" placeholder="поиск по технологиям (через запятую)" type="text" value="{{ Request::get('searchText') }}">
                         <div class="input-group-btn">
                             <button class="btn btn-default btn-sm" type="submit" onclick = "document.getElementById('searchText').value=document.getElementById('searchTextVisible').value; document.getElementById('searchForm').submit();">
                                     <i class="fa fa-search pull-right"></i>
@@ -52,6 +52,7 @@
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Код</a>{!! $data['page_appends']['order'] == 'id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th><a href="?page={{ $data['personal']->currentPage() }}&order=person_name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специалист</a>{!! $data['page_appends']['order'] == 'person_name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th>&nbsp;</th>
+                        <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=skill_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Уровень</a>{!! $data['page_appends']['order'] == 'skill_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=experience&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Опыт, лет</a>{!! $data['page_appends']['order'] == 'experience' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=hour_rate&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Ставка, р/час</a>{!! $data['page_appends']['order'] == 'hour_rate' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=speciality_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специальность</a>{!! $data['page_appends']['order'] == 'speciality_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
@@ -89,6 +90,7 @@
                                     <a href="{{ isset($person->resume) ? Storage::url($person->resume) : '' }}"><i class="fa fa-paperclip"></i></a>
                                 @endif
                             </td>
+                            <td class="text-center">{{ isset($person->skill_id) ? $person->skill->name : '' }}</td>
                             <td class="text-center">{{ $person->experience }}</td>
                             <td class="text-center">
                                 {{ isset($person->hour_rate) ? $person->hour_rate : '' }}
@@ -164,7 +166,7 @@
                     }
                 });
                 return false;
-            });               
+            });          
         });
     </script>
 @endsection

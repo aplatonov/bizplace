@@ -18,6 +18,7 @@ use App\Personal;
 use App\Technology;
 use App\Speciality;
 use App\PersonalHasTechnology;
+use App\Skill;
 
 class PersonalController extends Controller
 {
@@ -64,11 +65,14 @@ class PersonalController extends Controller
             ->get();
         $technologies = Technology::where('active', true)
             ->get();
+        $skills = Skill::where('active', true)
+            ->get();
 
         //dd($users);
         return view('new-person')->with([
                 'specialities' => $specialities,
                 'technologies' => $technologies,
+                'skills' => $skills,
                 'form' => $form
                 ]);
     }
@@ -99,11 +103,13 @@ class PersonalController extends Controller
             'resume' => 'file|max:1000|mimes:pdf,doc,docx,rtf',
             'hour_rate' => 'numeric|nullable',
             'free_since' => 'date|nullable',
-            'technologies' => 'present'
+            'technologies' => 'present',
+            'skill_id' => 'required|integer|min:1',
             ], [
             'person_name.required' => 'Название сотрудника обязательно к заполненнию',
             'speciality_id.min' => 'Необходимо выбрать специализацию',
-            'technologies.present' => 'Сотрудник должен владеть хотя бы одной технологией'
+            'technologies.present' => 'Сотрудник должен владеть хотя бы одной технологией',
+            'skill_id.min' => 'Необходимо выбрать уровень специалиста',
         ]); 
         
         //dd($form);
@@ -195,9 +201,21 @@ class PersonalController extends Controller
             }  
         }
 
-        if (!empty($searchText)) {
+        /*if (!empty($searchText)) {
             $personal = $personal
                 ->where('person_name', 'LIKE', '%' . $searchText . '%');
+        }*/
+        if (!empty($searchText)) {
+            $searchArr = explode(',', $searchText);
+            //dd($searchArr);
+            foreach($searchArr as $tech) {
+                $personal = $personal
+                    ->whereHas('personTechnologies', function($query) use ($tech) {
+                            $query->where('name', 'like', '%' . trim($tech) . '%');
+                });
+            }
+            $personal = $personal
+                ->orWhere('person_name', 'LIKE', '%' . $searchText . '%');
         }
 
         if ($order && $dir) {
@@ -236,11 +254,13 @@ class PersonalController extends Controller
         $person['technologies'] = $person->personTechnologies->keyBy('id')->keys()->toArray();
         $technologies = Technology::where('active', true)->get();
         $specialities = Speciality::where('active', true)->get();
+        $skills = Skill::where('active', true)->get();
         if (Auth::user()->isAdmin() || Auth::user()->id == $person->user_id) {
             return view('edit-person')->with([
                 'person' => $person,
                 'technologies' => $technologies,
-                'specialities' => $specialities]
+                'specialities' => $specialities,
+                'skills' => $skills]
         );
         } else  {
             return redirect(session('fromPage'))->with('message', 'Недостаточно прав для редактирования сотрудника');

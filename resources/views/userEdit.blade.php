@@ -196,10 +196,14 @@
                                     <table class="table table-hover table-striped table-condensed">
                                         <tbody>
                                             @forelse($technologies as $technology)
-                                                <tr>
+                                                @if($loop->iteration % 3 == 1)
+                                                    <tr>
+                                                @endif
                                                     <td><input type="checkbox" id="technology{{$technology->id}}" name="technologies[{{$technology->id}}]" {{ in_array($technology->id, (array) $user->technologies) ? 'checked' : ''}} value="{{ $technology->id }}"></td>
                                                     <td class="mailbox-name">{{ $technology->name }}</td>
-                                                </tr>
+                                                @if($loop->iteration % 3 == 0)
+                                                    </tr>
+                                                @endif
                                             @empty
                                                 <tr>
                                                     <td span="4">Не внесены технологии</td>
