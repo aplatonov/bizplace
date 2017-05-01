@@ -46,7 +46,7 @@
                         <th><a href="?page={{ $data['users']->currentPage() }}&order=login&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Login</a>{!! $data['page_appends']['order'] == 'login' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th><a href="?page={{ $data['users']->currentPage() }}&order=name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Имя</a>{!! $data['page_appends']['order'] == 'name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th><a href="?page={{ $data['users']->currentPage() }}&order=phone&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Телефон, e-mail</a>{!! $data['page_appends']['order'] == 'phone' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
-                        <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=role_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Дать роль</a>{!! $data['page_appends']['order'] == 'role_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
+                        <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=role_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Роль</a>{!! $data['page_appends']['order'] == 'role_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}<br><span class="text-muted"><small>(кликните, чтобы изменить)</small></span></th>
                         <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=confirmed&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Подтвержден</a>{!! $data['page_appends']['order'] == 'confirmed' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=valid&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Просмотр контактов</a>{!! $data['page_appends']['order'] == 'valid' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-right">Удалить</th>
@@ -62,7 +62,7 @@
                                 @if ($user->isAdmin())
                                     <div id="adminUser{{ $user->id }}">
                                         <form class="adminUser" > 
-                                            <input class="btn btn-xs btn-default" type="submit" name="action" id="adminedUser{{ $user->id }}" value="Пользователь">
+                                            <input class="btn btn-xs btn-default" type="submit" name="action" id="adminedUser{{ $user->id }}" value="Администратор">
                                             <input type="hidden" name="_token"  id="_token" value="{{csrf_token()}}"/>
                                             <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}"/>
                                         </form>
@@ -70,7 +70,7 @@
                                 @else
                                     <div id="adminUser{{ $user->id }}">
                                         <form class="adminUser" > 
-                                            <input class="btn btn-xs btn-default" type="submit" name="action" id="adminedUser{{ $user->id }}" value="Администратор">
+                                            <input class="btn btn-xs btn-default" type="submit" name="action" id="adminedUser{{ $user->id }}" value="Пользователь">
                                             <input type="hidden" name="_token"  id="_token" value="{{csrf_token()}}"/>
                                             <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}"/>
                                         </form>
@@ -208,7 +208,7 @@
                 e.preventDefault();
                 var action = $(this).find("input[name=action]").val();
                 var user_id = $(this).find("input[name=user_id]").val();
-                if (action == 'Администратор') {
+                if (action == 'Пользователь') {
                     action = 1;
                 } else {
                     action = 2;
@@ -226,9 +226,9 @@
                     success: function (response) {
                         if (response.text == 'success') {
                             if (action == 1) {
-                                document.getElementById("adminedUser"+user_id).value = "Пользователь";   
+                                document.getElementById("adminedUser"+user_id).value = "Администратор";   
                             } else {
-                                document.getElementById("adminedUser"+user_id).value = "Администратор";
+                                document.getElementById("adminedUser"+user_id).value = "Пользователь";
                             }
                             
                             console.log("#adminedUser"+user_id);

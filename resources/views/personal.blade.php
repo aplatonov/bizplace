@@ -36,9 +36,9 @@
                         <form method="GET" action="{{ Route::current()->getName() }}" id="searchForm" style="display:none;">
                             <input type="hidden" name="searchText" value="{{ Request::get('searchText') }}" id="searchText">
                         </form>
-                        <input class="form-control pull-right" name="searchTextVisible" id="searchTextVisible" placeholder="поиск по технологиям (через запятую)" type="text" value="{{ Request::get('searchText') }}">
+                        <input class="form-control pull-right" name="searchTextVisible" id="searchTextVisible" placeholder="поиск по технологиям (через запятую)" type="text" value="{{ Request::get('searchText') }}" onkeyup="if (event.keyCode == 13) document.getElementById('searchButton').click();">
                         <div class="input-group-btn">
-                            <button class="btn btn-default btn-sm" type="submit" onclick = "document.getElementById('searchText').value=document.getElementById('searchTextVisible').value; document.getElementById('searchForm').submit();">
+                            <button class="btn btn-default btn-sm" type="submit" id="searchButton" onclick = "document.getElementById('searchText').value=document.getElementById('searchTextVisible').value; document.getElementById('searchForm').submit();">
                                     <i class="fa fa-search pull-right"></i>
                             </button>
                         </div>
@@ -51,13 +51,15 @@
                     <tr>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Код</a>{!! $data['page_appends']['order'] == 'id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th><a href="?page={{ $data['personal']->currentPage() }}&order=person_name&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специалист</a>{!! $data['page_appends']['order'] == 'person_name' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
-                        <th>&nbsp;</th>
+                        <th>Резюме</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=skill_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Уровень</a>{!! $data['page_appends']['order'] == 'skill_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=experience&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Опыт, лет</a>{!! $data['page_appends']['order'] == 'experience' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=hour_rate&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Ставка, р/час</a>{!! $data['page_appends']['order'] == 'hour_rate' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=speciality_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Специальность</a>{!! $data['page_appends']['order'] == 'speciality_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center">Конт. инф.</th>
-                        <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=active&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Активен</a>{!! $data['page_appends']['order'] == 'active' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
+                        @can('admin-control')
+                            <th class="text-center"><a href="?page={{ $data['personal']->currentPage() }}&order=active&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Активен</a>{!! $data['page_appends']['order'] == 'active' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
+                        @endcan
                         <th class="text-right"></th>
                     </tr>
 
@@ -109,9 +111,11 @@
                                     <div><span class="badge badge-warning">Нет прав</span></div>
                                 @endif
                             </td>
-                            <td class="text-center">
-                                {!! $person->active ? '' : '<div><span class="badge badge-warning">нет</span></div>' !!}
-                            </td>
+                            @can('admin-control')
+                                <td class="text-center">
+                                    {!! $person->active ? '' : '<div><span class="badge badge-warning">нет</span></div>' !!}
+                                </td>
+                            @endcan
                             <td class="text-right">
                                 @if (Auth::user()->id == $person->user_id || Auth::user()->isAdmin())
                                     <form method="POST" action="{{action('PersonalController@destroyPerson',['id'=>$person->id])}}">

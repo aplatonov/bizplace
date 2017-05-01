@@ -40,7 +40,7 @@ class SettingsController extends Controller
             'about_us_1' => 'nullable|max:5000',
             'about_us_2' => 'nullable|max:5000',
             'about_us_3' => 'nullable|max:5000',
-            'konfedential' => 'nullable|max:5000',
+            'konfedential' => 'nullable|max:10000',
             ]); 
         
         $settings = Settings::firstOrCreate([]);

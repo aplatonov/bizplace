@@ -106,9 +106,11 @@
                                 <strong>Проектов</strong> 
                             </p>
                             <h3>{{ $notes['allProjects'] }}</h3>
-                            <p>
-                                <small>Ваших проектов: <strong>{{ $notes['userProjects'] }}</strong></small>
-                            </p>
+                            @can('user-valid')
+                                <p>
+                                    <small>Ваших проектов: <strong>{{ $notes['userProjects'] }}</strong></small>
+                                </p>
+                            @endcan
                         </div>
                         <div class="icon">
                             <i class="fa fa-gears"></i>
@@ -127,9 +129,11 @@
                                 <strong>Сотрудников</strong>
                             </p>
                             <h3>{{ $notes['allPersonal'] }}</h3>
-                            <p>
-                                <small>Ваших сотрудников: <strong>{{ $notes['userPersonal'] }}</strong></small>
-                            </p>
+                            @can('user-valid')
+                                <p>
+                                    <small>Ваших сотрудников: <strong>{{ $notes['userPersonal'] }}</strong></small>
+                                </p>
+                            @endcan
                         </div>
                         <div class="icon">
                             <i class="fa fa-users"></i>

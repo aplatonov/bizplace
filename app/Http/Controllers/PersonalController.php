@@ -211,7 +211,8 @@ class PersonalController extends Controller
             foreach($searchArr as $tech) {
                 $personal = $personal
                     ->whereHas('personTechnologies', function($query) use ($tech) {
-                            $query->where('name', 'like', '%' . trim($tech) . '%');
+                            //$query->where('name', 'like', '%' . trim($tech) . '%'); //поиск по части слова
+                            $query->where('name', trim($tech));
                 });
             }
             $personal = $personal

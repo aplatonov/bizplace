@@ -36,9 +36,9 @@
                         <form method="GET" action="{{ Route::current()->getName() }}" id="searchForm" style="display:none;">
                             <input type="hidden" name="searchText" value="{{ Request::get('searchText') }}" id="searchText">
                         </form>
-                        <input class="form-control pull-right" name="searchTextVisible" id="searchTextVisible" placeholder="поиск по названию" type="text" value="{{ Request::get('searchText') }}">
+                        <input class="form-control pull-right" name="searchTextVisible" id="searchTextVisible" placeholder="поиск по названию" type="text" value="{{ Request::get('searchText') }}" onkeyup="if (event.keyCode == 13) document.getElementById('searchButton').click();">
                         <div class="input-group-btn">
-                            <button class="btn btn-default btn-sm" type="submit" onclick = "document.getElementById('searchText').value=document.getElementById('searchTextVisible').value; document.getElementById('searchForm').submit();">
+                            <button class="btn btn-default btn-sm" type="submit" id="searchButton" onclick = "document.getElementById('searchText').value=document.getElementById('searchTextVisible').value; document.getElementById('searchForm').submit();">
                                     <i class="fa fa-search pull-right"></i>
                             </button>
                         </div>
