@@ -54,6 +54,11 @@
                         class="btn btn-primary btn-block btn-flat"
                 >{{ trans('adminlte::adminlte.reset_password') }}</button>
             </form>
+            <div class="auth-links">
+                <a href="/"
+                   class="text-center"
+                >Перейти на страницу приветствия</a>
+            </div>
         </div>
         <!-- /.login-box-body -->
     </div><!-- /.login-box -->

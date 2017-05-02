@@ -64,7 +64,9 @@
                     <a href="{{ url(config('adminlte.register_url', 'register')) }}"
                        class="text-center"
                     >{{ trans('adminlte::adminlte.register_a_new_membership') }}</a>
+                    <br>
                 @endif
+                <a href="/" class="text-center">Вернуться на страницу приветствия</a>
             </div>
         </div>
         <!-- /.login-box-body -->
