@@ -67,18 +67,20 @@
                             </div>
                         </div>
                     </div>
-                    <form class="showCompanyInfo" id="infoForm"> 
-                        <button type="submit" class="btn btn-default btn-xs pull-right"><i class="fa fa-envelope-o"></i> Конт. инфо</button>
-                        <input type="hidden" name="_token"  id="_token" value="{{csrf_token()}}"/>
-                        <input type="hidden" name="company_id" id="company_id" value="{{ $company->id }}"/>
-                    </form>
-                    <span class="pull-right text-muted">&nbsp;</span>
+                    @can('user-valid')
+                        <form class="showCompanyInfo" id="infoForm"> 
+                            <button type="submit" class="btn btn-default btn-xs pull-right"><i class="fa fa-envelope-o"></i> Конт. инфо</button>
+                            <input type="hidden" name="_token"  id="_token" value="{{csrf_token()}}"/>
+                            <input type="hidden" name="company_id" id="company_id" value="{{ $company->id }}"/>
+                        </form>
+                        <span class="pull-right text-muted">&nbsp;</span>
 
-                    <form method="GET" action="{{ url('/comments/add') }}">
-                        <input type="hidden" name="company_id" value="{{ $company->id}}" id="company_id">
-                        <input type="hidden" name="fromPage" value="{{ Route::current()->getName() }}" id="fromPage">
-                        <button type="submit" class="btn btn-default btn-xs pull-right"><i class="fa fa-comment-o"></i> Оставить отзыв</button>
-                    </form>
+                        <form method="GET" action="{{ url('/comments/add') }}">
+                            <input type="hidden" name="company_id" value="{{ $company->id}}" id="company_id">
+                            <input type="hidden" name="fromPage" value="{{ Route::current()->getName() }}" id="fromPage">
+                            <button type="submit" class="btn btn-default btn-xs pull-right"><i class="fa fa-comment-o"></i> Оставить отзыв</button>
+                        </form>
+                    @endcan
                     
     
 

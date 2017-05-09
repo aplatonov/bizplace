@@ -220,7 +220,9 @@
 
             <div class="box-footer">
                 <a href="{{ url('/home') }}"><button type="button" class="btn btn-default">Отмена</button></a>
-                <button type="submit" class="btn btn-info pull-right">Сохранить</button>
+                @if(Auth::user()->isAdmin() || Auth::user()->id == $user->id)
+                    <button type="submit" class="btn btn-info pull-right">Сохранить</button>
+                @endif
             </div>
             <!-- /.box-footer -->
             </form>

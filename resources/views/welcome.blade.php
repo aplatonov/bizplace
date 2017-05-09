@@ -171,7 +171,7 @@
                     <dd>&nbsp;</dd>
                     <dd>На время тестирования системы</dd>
                     <dt>Вход администратора</dt>
-                    <dd><span class="label label-primary">admin/admin</span></dd>
+                    <dd><span class="label label-primary">admin/adminadmin</span></dd>
                     <dt>Вход пользователя</dt>
                     <dd><span class="label label-primary">user/user</span></dd>
                     </dl>
