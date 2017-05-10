@@ -167,13 +167,6 @@
                     <dt>После активации</dt>
                     <dd>Вы сможете добавлять проекты и специалистов, получать о них информацию</dd>
                     <dd>Получать и писать отзывы, получать оповещения</dd>
-                    <dt>&nbsp;</dt>
-                    <dd>&nbsp;</dd>
-                    <dd>На время тестирования системы</dd>
-                    <dt>Вход администратора</dt>
-                    <dd><span class="label label-primary">admin/adminadmin</span></dd>
-                    <dt>Вход пользователя</dt>
-                    <dd><span class="label label-primary">user/user</span></dd>
                     </dl>
                 </div> <!-- /.box-body -->
             </div> <!-- /.box -->
