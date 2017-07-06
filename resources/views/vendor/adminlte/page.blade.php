@@ -248,7 +248,6 @@
                 <div class="col-md-3">
                     <ul class="list-unstyled">
                         <li><a href="/about">О нас</a></li>
-                        <li><a href="#">Тарифы</a></li>
                         <li><a href="/comments">Отзывы</a></li>
                     </ul>
                 </div>
