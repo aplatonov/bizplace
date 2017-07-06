@@ -30,6 +30,7 @@ Route::delete('/admin/users/delete/{id}','AdminController@destroyUser');
 Route::post('/admin/users/confirm/{id}','AdminController@confirmUser');
 Route::post('/admin/users/block/{id}','AdminController@blockUser');
 Route::post('/admin/users/role/{id}','AdminController@adminUser');
+Route::delete('/admin/users/delete/{id}','AdminController@deleteUser');
 
 Route::get('/personal','PersonalController@showPersonal')->name('personal');
 Route::get('/userPersonal','PersonalController@showPersonal')->name('userPersonal'); 
@@ -46,6 +47,7 @@ Route::post('/projects/active/{id}','ProjectsController@confirmProject');
 Route::get('/projects/add','ProjectsController@addProject'); 
 Route::post('/projects','ProjectsController@storeProject'); 
 Route::get('/projects/{id}/edit','ProjectsController@edit');
+Route::delete('/projects/delete/{id}','ProjectsController@deleteProject');
 
 Route::get('/companies','UserController@showCompanies')->name('companies');
 Route::post('/companies/info/{id}','UserController@showCompanyInfo');

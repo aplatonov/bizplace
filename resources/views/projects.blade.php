@@ -56,7 +56,8 @@
                         <th class="text-center"><a href="?page={{ $data['projects']->currentPage() }}&order=start_date&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Сроки</a>{!! $data['page_appends']['order'] == 'start_date' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['projects']->currentPage() }}&order=speciality_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Направление</a>{!! $data['page_appends']['order'] == 'speciality_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center">Конт. инф.</th>
-                        <th class="text-right">Проект</th>
+                        <th class="text-center">Проект</th>
+                        <th class="text-center"></th>
                     </tr>
 
                     @foreach($data['projects'] as $project)
@@ -107,7 +108,7 @@
                                 @endif
                             </td>
 
-                            <td class="text-right">
+                            <td class="text-center">
                                 @if (Auth::user()->id == $project->owner_id || Auth::user()->isAdmin())
                                     @if ($project->active)
                                         <div id="confirmProject{{ $project->id }}">
@@ -130,6 +131,15 @@
                                     <span class="label label-default">{{ $project->active ? 'опубликовано' : 'скрыт от показа'}}</span>
                                 @endif
                             </td>
+                            <td class="text-center">
+                                @if (Auth::user()->id == $project->owner_id || Auth::user()->isAdmin())
+                                    <form action="{{action('ProjectsController@deleteProject',['id'=>$project->id])}}" method="POST">
+                                        <input type="hidden" name="_method" value="delete">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="submit" class="btn btn-danger btn-xs" onclick="if (confirm('Вы уверены, что хотите удалить запись?')) {document.getElementById('preloader').style.display = 'block'; return true;} else {return false;}" name="name" value="Удалить">
+                                    </form>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
 
@@ -142,6 +152,9 @@
                     {!! $data['projects']->appends($data['page_appends'])->links('vendor.pagination.default') !!}
                 </div>
             </div><!-- /.box footer -->
+            <div class="overlay" id="preloader" style="display: none;">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
         </div> <!-- /.box -->
     </div> <!-- /.col -->
 </div> <!-- /.row -->

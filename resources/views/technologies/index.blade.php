@@ -46,7 +46,7 @@
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <a href="{{route('technologies.edit',$technology->id)}}" class="btn btn-info btn-xs">Редактировать</a>
-                                        <input type="submit" class="btn btn-warning btn-xs" onclick="return confirm('Вы уверены, что хотите удалить запись?');" name="name" value="Удалить">
+                                        <input type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Вы уверены, что хотите удалить запись?');" name="name" value="Удалить">
                                     </form>
                                 </td>
 

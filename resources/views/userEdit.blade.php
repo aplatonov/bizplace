@@ -221,17 +221,17 @@
             <div class="box-footer">
                 <a href="{{ url('/home') }}"><button type="button" class="btn btn-default">Отмена</button></a>
                 @if(Auth::user()->isAdmin() || Auth::user()->id == $user->id)
-                    <button type="submit" class="btn btn-info pull-right">Сохранить</button>
+                    <button type="submit" class="btn btn-info pull-right" onclick="document.getElementById('preloader').style.display = 'block'">Сохранить</button>
                 @endif
             </div>
             <!-- /.box-footer -->
             </form>
-        </div>
-        <!-- /.box -->
-    </div>
-    <!-- /.col -->
-</div>
-<!-- /.row -->
+            <div class="overlay" id="preloader" style="display: none;">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+        </div> <!-- /.box -->
+    </div> <!-- /.col -->
+</div> <!-- /.row -->
 @stop
 
 @section('jscripts')

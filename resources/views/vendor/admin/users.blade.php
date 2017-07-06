@@ -49,7 +49,7 @@
                         <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=role_id&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Роль</a>{!! $data['page_appends']['order'] == 'role_id' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}<br><span class="text-muted"><small>(кликните, чтобы изменить)</small></span></th>
                         <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=confirmed&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Подтвержден</a>{!! $data['page_appends']['order'] == 'confirmed' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
                         <th class="text-center"><a href="?page={{ $data['users']->currentPage() }}&order=valid&dir={{ $data['dir'] ? $data['dir'] : 'asc' }}{{ $data['searchText'] ? '&searchText='.$data['searchText'] : '' }}">Просмотр контактов</a>{!! $data['page_appends']['order'] == 'valid' ? $data['dir'] == 'desc' ? '<span class="glyphicon glyphicon-arrow-down"></span>' : '<span class="glyphicon glyphicon-arrow-up"></span>' : '' !!}</th>
-                        <th class="text-right">Удалить</th>
+                        <th class="text-center"></th>
                     </tr>
 
                     @foreach($data['users'] as $user)
@@ -109,12 +109,12 @@
                                         </form>
                                     </div>
                                 @endif
-                            <td class="text-right">
-                                @if ($user->projects->count() == 0 && $user->personal->count() == 0)
-                                    <form method="POST" action="{{action('AdminController@destroyUser',['id'=>$user->id])}}">
-                                        <input type="hidden" name="_method" value="delete"/>
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                        <input type="submit" class="btn btn-xs btn-danger" value="Удалить"/>
+                            <td class="text-center">
+                                @if (Auth::user()->isAdmin() && $user->id !=1 )
+                                    <form action="{{action('AdminController@deleteUser',['id'=>$user->id])}}" method="POST">
+                                        <input type="hidden" name="_method" value="delete">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="submit" class="btn btn-danger btn-xs" onclick="if (confirm('Вы уверены, что хотите удалить запись?')) {document.getElementById('preloader').style.display = 'block'; return true;} else {return false;}" name="name" value="Удалить">
                                     </form>
                                 @endif
                             </td>
@@ -127,10 +127,11 @@
             <div class="box-footer">
                 {!! $data['users']->appends($data['page_appends'])->links('vendor.pagination.default') !!}
             </div> <!-- /.box-footer -->
-        </div>
-        <!-- /.box -->
-    </div>
-    <!-- /.col -->
+            <div class="overlay" id="preloader" style="display: none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+            </div>
+        </div> <!-- /.box -->
+    </div> <!-- /.col -->
 </div>
 <!-- /.row -->
 @stop

@@ -148,9 +148,9 @@ class ProjectsController extends Controller
         } 
 
         if ($form['isUpdate'] == 1) {
-            return redirect('/'.session('fromPage'))->with(['message' => 'Данные проекта '.$project->project_name.' обновлены']);
+            return redirect(session('fromPage'))->with(['message' => 'Данные проекта '.$project->project_name.' обновлены']);
         } else {
-            return redirect('/'.session('fromPage'))->with(['message' => 'Проект '.$project->project_name.' добавлен']);
+            return redirect('/projects')->with(['message' => 'Проект '.$project->project_name.' добавлен']);
         }
     }
 
@@ -292,5 +292,27 @@ class ProjectsController extends Controller
             $data = array( 'text' => 'fail' . $request->input('action') );
         }
         return Response::json($data);
+    }
+
+    public function deleteProject($id)
+    {
+        $this->authorize('user-valid');
+        $project = Projects::findOrFail($id);
+        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $project->owner_id)) {
+            $projectName = '#'.$project->id.' '.$project->project_name;
+            try {
+                DB::beginTransaction();
+                ProjectsHasTechnology::where('project_id', $project->id)->delete();
+                Storage::delete($project->doc);
+                $project->delete();
+                DB::commit();
+                return redirect()->back()->with('message', 'Проект '.$projectName.' удален');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->with('message', 'Невозможно удалить проект '.$projectName);
+            }
+        } else {
+            return redirect()->back()->with('message', 'Недостаточно прав для удаления проекта');
+        }
     }
 }

@@ -61,7 +61,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="form-group col-xs-12">
-                        <input type="text" class="form-control" id="person_name" name="person_name" value="{{ old('person_name') }}" placeholder="Ваше имя" required>
+                        <input type="text" class="form-control" id="person_name" name="person_name" value="{{ old('person_name') }}" placeholder="Ваше имя">
                         @if ($errors->has('person_name'))
                             <span class="text-danger">
                                 <strong><small>{{ $errors->first('person_name') }}</small></strong>
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="E-mail" required>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="E-mail">
                         @if ($errors->has('email'))
                             <span class="text-danger">
                                 <strong><small>{{ $errors->first('email') }}</small></strong>
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <textarea name="description" id="description" class="form-control" placeholder="Сообщение" rows="3" required>{{ old('description') }}</textarea>
+                        <textarea name="description" id="description" class="form-control" placeholder="Сообщение" rows="3">{{ old('description') }}</textarea>
                         @if ($errors->has('description'))
                             <span class="text-danger">
                                 <strong><small>{{ $errors->first('description') }}</small></strong>
@@ -89,9 +89,12 @@
                 </div>
             </div> <!-- /.box-body -->
             <div class="box-footer clearfix">
-                <button type="submit" class="btn btn-info pull-right">Отправить сообщение</button>
+                <button type="submit" class="btn btn-info pull-right" onclick="document.getElementById('preloader').style.display = 'block'">Отправить сообщение</button>
             </div>
             </form>
+            <div class="overlay" id="preloader" style="display: none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+            </div>
         </div> <!-- /.box -->
     </div>
     

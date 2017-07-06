@@ -87,9 +87,12 @@
                     </div><!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <a href="{{ Redirect::back()->getTargetUrl() }}"><button type="button" class="btn btn-default">Отмена</button></a>
-                        <button type="submit" class="btn btn-info pull-right">Сохранить отзыв</button>
+                        <button type="submit" class="btn btn-info pull-right" onclick="document.getElementById('preloader').style.display = 'block'">Сохранить отзыв</button>
                     </div>
                 </form>
+                <div class="overlay" id="preloader" style="display: none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
             </div><!-- /.box -->
         </div>
     </div>

@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Storage;
 use Exception;
 use Response;
 use App\Users;
+use App\UsersHasTechnology;
+use App\Comments;
+use App\Notes;
+use App\Projects;
+use App\ProjectsHasTechnology;
+use App\Personal;
+use App\PersonalHasTechnology;
 use File;
 
 class AdminController extends Controller
@@ -191,5 +198,58 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Delete a user instance with relation records.
+     *
+     * @param  integer  $id
+     * @return string
+     */
+    public function deleteUser($id)
+    {
+        $this->authorize('admin-control');
+        $user = Users::findOrFail($id);
+        if (Auth::check() && (Auth::user()->isAdmin() && $user->id != 1)) {
+            $userName = '#'.$user->id.' '.$user->name .' (' . $user->login . ')';
+            try {
+                $filesToDelete = [];
+                DB::beginTransaction();
+                UsersHasTechnology::where('user_id', $user->id)->delete();
+                Comments::where('user_id', $user->id)->orWhere('company_id', $user->id)->delete();
+                Notes::where('to_user_id', $user->id)->orWhere('from_user_id', $user->id)->delete();
+                $userProjects = Projects::where('owner_id', $user->id)->get();
+                foreach($userProjects as $userProject) {
+                    ProjectsHasTechnology::where('project_id', $userProject->id)->delete();
+                    $filesToDelete[] = $userProject->doc;
+                    $userProject->delete();
+                }
+                $userPersonals = Personal::where('user_id', $user->id)->get();
+                foreach($userPersonals as $userPersonal) {
+                    PersonalHasTechnology::where('person_id', $userPersonal->id)->delete();
+                    $filesToDelete[] = $userPersonal->resume;
+                    $userPersonal->delete();
+                }
+                $filesToDelete[] = $user->portfolio;
+                $filesToDelete[] = $user->logo;
+                $user->delete();
+                DB::commit();
+                foreach ($filesToDelete as $file) {
+                    Storage::delete($file);
+                }
+                if (dirname($user->logo)) {
+                    Storage::deleteDirectory(dirname($user->logo));
+                }
+                if (dirname($user->portfolio)) {
+                    Storage::deleteDirectory(dirname($user->portfolio));
+                }
+                return redirect()->back()->with('message', 'Пользователь '.$userName.' удален');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->with('message', 'Невозможно удалить пользователя '.$userName);
+            }
+        } else {
+            return redirect()->back()->with('message', 'Недостаточно прав для удаления пользователя');
+        }
     }
 }

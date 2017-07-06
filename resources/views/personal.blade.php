@@ -121,7 +121,7 @@
                                     <form method="POST" action="{{action('PersonalController@destroyPerson',['id'=>$person->id])}}">
                                         <input type="hidden" name="_method" value="delete"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                        <input type="submit" class="btn btn-xs btn-default" value="Удалить"/>
+                                        <input type="submit" class="btn btn-danger btn-xs" onclick="if (confirm('Вы уверены, что хотите удалить запись?')) {document.getElementById('preloader').style.display = 'block'; return true;} else {return false;}" name="name" value="Удалить"/>
                                     </form>
                                 @endif
                             </td>
@@ -137,6 +137,9 @@
                     {!! $data['personal']->appends($data['page_appends'])->links('vendor.pagination.default') !!}
                 </div>
             </div><!-- /.box footer -->
+            <div class="overlay" id="preloader" style="display: none;">
+                    <i class="fa fa-refresh fa-spin"></i>
+            </div>
         </div> <!-- /.box -->
     </div> <!-- /.col -->
 </div> <!-- /.row -->

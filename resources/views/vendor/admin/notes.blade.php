@@ -99,7 +99,7 @@
                                     <form method="POST" action="{{action('NotesController@destroyNote',['id'=>$note->id])}}">
                                         <input type="hidden" name="_method" value="delete"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                        <input type="submit" class="btn btn-xs btn-default" value="Удалить"/>
+                                        <input type="submit" class="btn btn-xs btn-danger" value="Удалить"/>
                                     </form>
                                 @endif
                             </td>

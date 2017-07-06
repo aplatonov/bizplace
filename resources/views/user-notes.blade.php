@@ -87,13 +87,13 @@
                                     <a href="{{ isset($note->to) ? url('/users/edit/'.$note->to_user_id) : 'null'  }}">{{ isset($note->to) ? $note->to->name : null }}</a>
                                 @endif
                             </td>
-                            <td class="text-center">{{ isset($note->from) ? $note->from->name : 'null' }}</td>
+                            <td class="text-center">{{ isset($note->from) ? $note->from->name : 'Гость' }}</td>
                             <td class="text-center">
                                 @if (Auth::user()->isAdmin() || Auth::user()->isValidUser())
                                     <form method="POST" action="{{action('NotesController@destroyNote',['id'=>$note->id])}}">
                                         <input type="hidden" name="_method" value="delete"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                                        <input type="submit" class="btn btn-xs btn-default" value="Удалить"/>
+                                        <input type="submit" class="btn btn-danger btn-xs" value="Удалить"/>
                                     </form>
                                 @endif
                             </td>

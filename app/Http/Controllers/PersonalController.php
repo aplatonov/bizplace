@@ -154,7 +154,7 @@ class PersonalController extends Controller
         if ($form['isUpdate'] == 1) {
             return redirect(session('fromPage'))->with(['message' => 'Данные сотрудника '.$person->person_name.' обновлены']);
         } else {
-            return redirect(session('fromPage'))->with(['message' => 'Сотрудник '.$person->person_name.' добавлен']);
+            return redirect('/personal')->with(['message' => 'Сотрудник '.$person->person_name.' добавлен']);
         }
     }
 

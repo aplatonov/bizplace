@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Settings;
+use Illuminate\Support\Facades\Mail;
+
 
 class HomeController extends Controller
 {
@@ -68,6 +70,13 @@ class HomeController extends Controller
                                 $from_user_id, 
                                 $form['email'])) 
         {
+            $form['user_message'] = explode("\n", $form['description']);
+            Mail::send('layouts.feedback', $form, function ($message) use ($form)
+            {
+                $message->to(env('MAIL_FROM_ADDRESS'))
+                        ->subject('Feedback from ' . $form['person_name'])
+                        ->replyTo($form['email']);
+            });
             return redirect('/contacts')->with(['message' => 'Сообщение успешно отправлено']);
         } else {
             return redirect('/contacts')->with(['message' => 'Не удалось отправить сообщение']);
