@@ -76,7 +76,13 @@ class AdminController extends Controller
                 'order' => $order,
                 'dir' => $dir,
             ];
-        } 
+        } else {
+            $page_appends = [
+                'order' => 'id',
+                'dir' => 'desc',
+            ];
+            $users = $users->orderBy($page_appends['order'], $page_appends['dir']);
+        }
 
         $users = $users->paginate(config('app.users_on_page_admin'))->appends(['searchText' => $searchText]);
         Session::put('page', $users->currentPage());
@@ -87,32 +93,6 @@ class AdminController extends Controller
         $data['searchText'] = $searchText;
 
         return view('vendor.admin.users', ['data' => $data, 'message'=>'']);
-    }
-
-    /**
-     * Destroy a user instance after by valid user role.
-     *
-     * @param  integer  $id
-     * @return string
-     */
-    public function destroyUser($id)
-    {
-        if (Auth::user()->isAdmin()) {
-	        $user = Users::findOrFail($id);
-	        if ($user->projects->count() == 0 && $user->personal->count() == 0) {
-	            $username = $user->login;
-	            try {
-	                Storage::deleteDirectory(dirname(isset($user->portfolio) ? $user->portfolio : $user->logo));
-
-	                $user->delete();
-	                return redirect()->back()->with('message', 'Пользователь '.$username.' удален');
-	            } catch (Exception $e) {
-	                return redirect()->back()->with('message', 'Невозможно удалить пользователя '.$username);
-	            }
-	        }
-        } else {
-            return redirect()->back()->with('message', 'Недостаточно прав для удаления пользователя');
-        }
     }
 
      /**
@@ -143,9 +123,14 @@ class AdminController extends Controller
     {
         if (Auth::user()->isAdmin()) {
             $user = Users::findOrFail($request->input('user_id'));
-            $user->valid = $request->input('action');
-            $user->save();
-            $data = array( 'text' => 'success' );
+            //нельзя заблокировать самого себя и юзера с id = 1
+            if (!((Auth::user()->id == $user->id) || ($user->id == 1)))  {
+                $user->valid = $request->input('action');
+                $user->save();
+                $data = array( 'text' => 'success' );
+            } else {
+                $data = array( 'text' => 'fail' . $request->input('action') );
+            }
         } else {
             $data = array( 'text' => 'fail' . $request->input('action') );
         }
@@ -251,5 +236,5 @@ class AdminController extends Controller
         } else {
             return redirect()->back()->with('message', 'Недостаточно прав для удаления пользователя');
         }
-    }
+    }  
 }

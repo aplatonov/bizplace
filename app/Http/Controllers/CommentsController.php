@@ -53,7 +53,13 @@ class CommentsController extends Controller
                 'order' => $order,
                 'dir' => $dir,
             ];
-        } 
+        } else {
+            $page_appends = [
+                'order' => 'created_at',
+                'dir' => 'desc',
+            ];
+            $comments = $comments->orderBy($page_appends['order'], $page_appends['dir']);
+        }
 
         $comments = $comments->paginate(config('app.objects_on_page_admin'))->appends(['searchText' => $searchText]);
         Session::put('page', $comments->currentPage());

@@ -297,7 +297,7 @@ class PersonalController extends Controller
     {
         if (Auth::user()->confirmed == 1 && Auth::user()->valid == 1) {
             $person = Personal::findOrFail($request->input('person_id'));
-            $person_info = '<small><a href="/users/edit/' . $person->user->id . '">' . $person->user->name . '</a><br>' . $person->user->contact_person . '<br>' . $person->user->phone . '<br><a href="mailto:' . $person->user->email . '">'.$person->user->email.'</a><small>';
+            $person_info = '<small><a href="/users/edit/' . $person->user->id . '">' . $person->user->name . '</a><br>' . $person->user->contact_person . '<br>' . $person->user->phone . '<br><a href="mailto:' . $person->user->email . '">'.$person->user->email.'</a><br><a href="//' . $person->user->www . '" target="_blank">' . $person->user->www . '</a><br><small>';
             $data = array( 'text' => 'success', 'person_info' => $person_info);
             $this->personalNote($person->user->id, Auth::user()->id, $person->id);
         } else {

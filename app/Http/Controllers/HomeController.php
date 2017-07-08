@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Settings;
 use Illuminate\Support\Facades\Mail;
+use App\Users;
 
 
 class HomeController extends Controller
@@ -18,7 +19,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        //$this->middleware('guest');
     }
 
     /**
@@ -83,5 +84,23 @@ class HomeController extends Controller
         }
 
     }
+    /**
+     * Set in DB block field for user
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function unblockUserByMail($confirmationCode)
+    {
+        $user = Users::where('confirmation_code', $confirmationCode)->first();
+        if ($user) {
+            $user->confirmed = true;
+            $user->confirmation_code = null;
+            $user->save();
+            return redirect('/users/editprofile')->with(['message' => 'E-mail подтвержден.']);
+        } else {
+            return redirect('/home')->with(['message' => 'Ошибочная ссылка для подтверждения e-mail.']);
+        }
+    }    
 }
  

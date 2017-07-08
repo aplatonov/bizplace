@@ -214,7 +214,13 @@ class ProjectsController extends Controller
                 'order' => $order,
                 'dir' => $dir,
             ];
-        } 
+        } else {
+            $page_appends = [
+                'order' => 'id',
+                'dir' => 'desc',
+            ];
+            $projects = $projects->orderBy($page_appends['order'], $page_appends['dir']);
+        }
 
         $projects = $projects->paginate(config('app.objects_on_page'))->appends(['searchText' => $searchText]);
 
@@ -255,7 +261,7 @@ class ProjectsController extends Controller
     {
         if (Auth::user()->confirmed == 1 && Auth::user()->valid == 1) {
             $project = Projects::findOrFail($request->input('project_id'));
-            $project_info = '<small>' . $project->user->name . '<br>' . $project->user->contact_person . '<br>' . $project->user->phone . '<br><a href="mailto:' . $project->user->email . '">'.$project->user->email.'</a><small>';
+            $project_info = '<small><a href="/users/edit/' . $project->user->id . '">' . $project->user->name . '</a><br>' . $project->user->contact_person . '<br>' . $project->user->phone . '<br><a href="mailto:' . $project->user->email . '">'.$project->user->email.'</a><br><a href="//' . $project->user->www . '" target="_blank">' . $project->user->www . '</a><br><small>';
             $data = array( 'text' => 'success', 'project_info' => $project_info);
             $this->projectNote($project->user->id, Auth::user()->id, $project->id);
         } else {

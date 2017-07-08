@@ -22,7 +22,6 @@ Route::get('/users/editprofile', 'UserController@edit');
 Route::get('/users/edit/{id}', 'UserController@edit');
 Route::put('/users/update/{id}', 'UserController@update');
 
-
 Route::get('/home', 'HomeController@index');
 
 Route::get('/admin/users','AdminController@showUsers');
@@ -31,6 +30,7 @@ Route::post('/admin/users/confirm/{id}','AdminController@confirmUser');
 Route::post('/admin/users/block/{id}','AdminController@blockUser');
 Route::post('/admin/users/role/{id}','AdminController@adminUser');
 Route::delete('/admin/users/delete/{id}','AdminController@deleteUser');
+Route::get('/register/confirm/{confirmationCode}','HomeController@unblockUserByMail');
 
 Route::get('/personal','PersonalController@showPersonal')->name('personal');
 Route::get('/userPersonal','PersonalController@showPersonal')->name('userPersonal'); 

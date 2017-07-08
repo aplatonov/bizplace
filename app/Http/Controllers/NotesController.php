@@ -43,6 +43,12 @@ class NotesController extends Controller
                 'order' => $order,
                 'dir' => $dir,
             ];
+        } else {
+            $page_appends = [
+                'order' => 'created_at',
+                'dir' => 'desc',
+            ];
+            $notes = $notes->orderBy($page_appends['order'], $page_appends['dir']);
         }
 
         $notes = $notes->paginate(50)->appends(['searchText' => $searchText]);
@@ -107,6 +113,12 @@ class NotesController extends Controller
                 'order' => $order,
                 'dir' => $dir,
             ];
+        } else {
+            $page_appends = [
+                'order' => 'created_at',
+                'dir' => 'desc',
+            ];
+            $notes = $notes->orderBy($page_appends['order'], $page_appends['dir']);
         }
 
         $notes = $notes->paginate(50)->appends(['searchText' => $searchText]);

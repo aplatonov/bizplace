@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -71,12 +72,10 @@ class RegisterController extends Controller
         
         $data['link'] = '/register/confirm/' . $confirmation_code;
         
-        /*
         Mail::send('layouts.mailconfirm', $data, function ($message) use ($data) {
                 $message->to($data['email'])
-                    ->subject('Confirm registration ' . $data['login']);
+                    ->subject('Confirm registration for ' . $data['login']);
             });
-        */
 
         $user = User::create([
             'login' => $data['login'],
